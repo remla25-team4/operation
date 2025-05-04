@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  model-service:
+    image: ghcr.io/remla25-team4/model-service:latest #waiting for the other image name
+    ports:
+      - "8080:8080"
+    restart: always
+    env_file:
+      - .env
+
+  app:
+    image: ghcr.io/remla25-team4/app:0.0.5
+    ports:
+      - "3001:3001"
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - model-service
