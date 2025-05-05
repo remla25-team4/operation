@@ -1,13 +1,12 @@
-# Restaurant Sentiment Analysis – Operations
+# Restaurant Sentiment Analysis
 
-This operation repository is used to run the complete Restaurant Sentiment Analysis application for the REMLA course at TU Delft for Group 4. It includes the configuration to deploy all necessary services using Docker Compose.
+This repository is used to run the complete Restaurant Sentiment Analysis application of Group 4. It includes the configuration to deploy the necessary services using Docker Compose.
 
-The application allows a user to enter short restaurant reviews via our UI. These reviews are processed our app service, which forwards them to a our model that classifies the sentiment (positive or negative).
+This app will allow the user to enter short restaurant reviews via our UI. These reviews are processed by our app service, which forwards them to our model which the classifies the sentiment (positive or negative).
 
 ---
 
-## How to Run the Application
-
+## How to run our application
 ### ⚙️ Requirements
 
 * Docker installed
@@ -31,7 +30,8 @@ cd operation
 docker compose up
 ```
 
-The application will start two services:
+
+The app will start two services:
 
 * `app` (frontend + backend) at [http://localhost:3001](http://localhost:3001)
 * `model-service` (ML API) internally at `http://model-service:8080`
@@ -40,10 +40,10 @@ The application will start two services:
 
 ## Environment Configuration
 
-The following variables are defined in the `.env` file:
+Variables defined in the `.env` file:
 
 ```env
-MODEL_URL=https://github.com/remla25-team4/model-training/raw/main/models/naive_bayes
+MODEL_URL=https://github.com/remla25-team4/model-training/models/naive_bayes.joblib
 MODEL_SERVICE_URL=http://model-service:8080
 ```
 
@@ -52,7 +52,7 @@ MODEL_SERVICE_URL=http://model-service:8080
 
 ---
 
-## Related Repositories
+## Related Repositories 
 
 | Repo                                                              | Purpose                               |
 | ----------------------------------------------------------------- | ------------------------------------- |
@@ -63,7 +63,7 @@ MODEL_SERVICE_URL=http://model-service:8080
 | [app](https://github.com/remla25-team4/app)                       | Frontend and backend for user input   |
 
 ---
-### 🔎 Pointers to Relevant Files
+### Pointers to Relevant Files
 
 * [`docker-compose.yml`](docker-compose.yml): Defines how to run the application services.
 * [`model-service/app/main.py`](https://github.com/remla25-team4/model-service/blob/main/app/main.py):Contains the logic to load and serve the trained model.
@@ -75,13 +75,8 @@ MODEL_SERVICE_URL=http://model-service:8080
 ### Assignment 1
 
 * Created all required repositories in a GitHub organization.
-* Trained and versioned a sentiment model for restaurant reviews.
+* Trained and versioned a sentiment model with Niave Bayes for restaurant reviews.
 * Set up reusable libraries (`lib-ml`, `lib-version`).
 * Built and containerized both app and model-service.
 
----
-
-## Notes
-
-* The system uses REST APIs internally to communicate.
 
