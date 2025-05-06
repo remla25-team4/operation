@@ -16,4 +16,4 @@
   - Created PR: [Model service](https://github.com/remla25-team4/model-service/pull/1)
   - Created PR: [Model training](https://github.com/remla25-team4/model-training/pull/3)
   - Approved PR: [App](https://github.com/remla25-team4/app/pull/1)
-  - Approved PR: [Model training](https://github.com/remla25-team4/model-training/pull/4)\
+  - Approved PR: [Model training](https://github.com/remla25-team4/model-training/pull/4)
