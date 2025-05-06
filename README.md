@@ -65,11 +65,21 @@ MODEL_SERVICE_URL=http://model-service:8080
 ---
 ### Pointers to Relevant Files
 
-* [`docker-compose.yml`](docker-compose.yml): Defines how to run the application services.
-* [`model-service/app/main.py`](https://github.com/remla25-team4/model-service/blob/main/app/main.py):Contains the logic to load and serve the trained model.
-* [`model-service/openapi.yaml`](https://github.com/remla25-team4/model-service/blob/main/openapi.yaml): OpenAPI schema for the REST endpoints.
-* [`model-training/model_code`](https://github.com/remla25-team4/model-training/tree/main/model_code): Training logic and preprocessing pipeline.
-* [`model-training/models/naive_bayes`](https://github.com/remla25-team4/model-training/blob/main/models/naive_bayes): The stored ML model file downloaded at runtime.
+| File                                                                                                                                | Description                                                       |
+| ----------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| `docker-compose.yml`                                                                                                                | launches both app and model-service containers                    |
+| `.env`                                                                                                                              | defines the required runtime environment variables                    |
+| [`model-service/app/main.py`](https://github.com/remla25-team4/model-service/blob/main/app/main.py)                                 | Loads the model and defines the REST API                          |
+| [`app/index.js`](https://github.com/remla25-team4/app/blob/main/index.js)                                                           | main backend server for serving frontend and routing API requests |
+| [`app/app-frontend/src/App.js`](https://github.com/remla25-team4/app/blob/main/app-frontend/src/App.js)                             | main React component rendered to user                             |
+| [`model-training/model_code/create_model.py`](https://github.com/remla25-team4/model-training/blob/main/model_code/create_model.py) | Core model training logic                                         |
+| [`model-training/models/naive_bayes`](https://github.com/remla25-team4/model-training/blob/main/models/naive_bayes)                 | stored trained model used in production                           |
+| [`lib-ml/preprocessing.py`](https://github.com/remla25-team4/lib-ml/blob/main/preprocessing.py)                                     | Text preprocessing logic used during training and inference       |
+
+---
+
+
+
 ## Progress Log
 
 ### Assignment 1 (06/05/2025)
