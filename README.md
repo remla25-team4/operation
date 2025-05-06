@@ -1,4 +1,4 @@
-# Restaurant Sentiment Analysis
+# Restaurant Sentiment Analysis - Group 4
 
 This repository is used to run the complete Restaurant Sentiment Analysis application of Group 4. It includes the configuration to deploy the necessary services using Docker Compose.
 
@@ -72,7 +72,7 @@ MODEL_SERVICE_URL=http://model-service:8080
 * [`model-training/models/naive_bayes`](https://github.com/remla25-team4/model-training/blob/main/models/naive_bayes): The stored ML model file downloaded at runtime.
 ## Progress Log
 
-### Assignment 1
+### Assignment 1 (06/05/2025)
 
 * Created all required repositories in a GitHub organization.
 * Trained and versioned a sentiment model with Niave Bayes for restaurant reviews.
