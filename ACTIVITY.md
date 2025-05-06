@@ -7,4 +7,7 @@
   - Created PR: [Model training](https://github.com/remla25-team4/model-training/pull/1)
   - Approved PR: [Model service](https://github.com/remla25-team4/model-service/pull/2)
   - Approved PR: [Model service](https://github.com/remla25-team4/model-service/pull/1)
- 
+- Yulin Chen:
+  - Created PR: [lib-ml](https://github.com/remla25-team4/lib-ml/pull/1)
+  - Created PR: [lib-version](https://github.com/remla25-team4/lib-version/pull/1)
+  - Approved PR: [Model training](https://github.com/remla25-team4/model-training/pull/1) 
