@@ -1,19 +1,19 @@
 # Restaurant Sentiment Analysis - Group 4
 
-This repository is used to run the complete Restaurant Sentiment Analysis application of Group 4. It includes the configuration to deploy the necessary services using Docker Compose.
+The operations repository is used to run the complete Restaurant Sentiment Analysis application of Group 4. It includes the configuration to deploy the necessary services using Docker Compose.
 
 This app will allow the user to enter short restaurant reviews via our UI. These reviews are processed by our app service, which forwards them to our model which the classifies the sentiment (positive or negative).
 
 ---
 
 ## How to run our application
-### ⚙️ Requirements
+### Requirements
 
 * Docker installed
 * Docker Compose (comes with modern Docker)
 * Internet access to pull public images and download the model
 
-### ▶️ Quick start
+### Quick start
 
 1. Clone this repository:
 
