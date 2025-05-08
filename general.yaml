@@ -1,3 +1,11 @@
 - hosts: all
   become: true
-  tasks:
+  tasks: 
+  - name: Add SSH key
+    ansible.posix.authorized_key:
+      user: vagrant
+      state: present
+      key: '{{ item }}'
+    with_file:
+      - public-keys/alexgliga
+      - public-keys/alexpostu
