@@ -25,6 +25,10 @@ Vagrant.configure("2") do |config|
       v.memory = 4096
       v.cpus = 1
     end
+
+    ctrl_node.vm.provision :ansible do |a|
+      a.playbook = "ctrl.yaml"
+    end
   end
 
   # Define first worker
@@ -37,6 +41,10 @@ Vagrant.configure("2") do |config|
       v.memory = 6144
       v.cpus = 2
     end
+
+    node_1.vm.provision :ansible do |a|
+      a.playbook = "node.yaml"
+    end
   end
 
   # Define second worker
@@ -48,6 +56,10 @@ Vagrant.configure("2") do |config|
     node_2.vm.provider "virtualbox" do |v|
       v.memory = 6144
       v.cpus = 2
+    end
+
+    node_2.vm.provision :ansible do |a|
+      a.playbook = "node.yaml"
     end
   end
 end
