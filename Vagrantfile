@@ -15,8 +15,13 @@ Vagrant.configure("2") do |config|
   config.vm.box = "bento/ubuntu-24.04"
   config.vm.box_version = "202502.21.0"
 
+  # Open the general setup playbook.
+  config.vm.provision :ansible do |a|
+    a.playbook = "general.yaml"
+  end
+
   # Define control node
-  config.vm.define "ctrl-node" do |ctrl_node|
+  config.vm.define "ctrl" do |ctrl_node|
     ctrl_node.vm.hostname = "ctrl"
     ctrl_node.vm.network "private_network", ip: "192.168.56.100"
 
@@ -26,6 +31,7 @@ Vagrant.configure("2") do |config|
       v.cpus = 1
     end
 
+    # Open the control playbook.
     ctrl_node.vm.provision :ansible do |a|
       a.playbook = "ctrl.yaml"
     end
@@ -42,6 +48,7 @@ Vagrant.configure("2") do |config|
       v.cpus = 2
     end
 
+    # Open the node playbook.
     node_1.vm.provision :ansible do |a|
       a.playbook = "node.yaml"
     end
@@ -58,6 +65,7 @@ Vagrant.configure("2") do |config|
       v.cpus = 2
     end
 
+    # Open the node playbook.
     node_2.vm.provision :ansible do |a|
       a.playbook = "node.yaml"
     end
