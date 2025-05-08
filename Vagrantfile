@@ -18,36 +18,12 @@ Vagrant.configure("2") do |config|
   # Define control node
   config.vm.define "ctrl-node" do |ctrl_node|
     ctrl_node.vm.hostname = "ctrl"
-    ctrl_node.vm.network "private_network", ip: "192.168.56.100"
+    ctrl_node.vm.network "private_network", ip: "192.168.56.10"
 
     # Set memory to 4GB and CPU to 1
     ctrl_node.vm.provider "virtualbox" do |v|
       v.memory = 4096
       v.cpus = 1
-    end
-  end
-
-  # Define first worker
-  config.vm.define "node-1" do |node_1|
-    node_1.vm.hostname = "node-1"
-    node_1.vm.network "private_network", ip: "192.168.56.101" 
-
-    # Set memory & CPU
-    node_1.vm.provider "virtualbox" do |v|
-      v.memory = 6144
-      v.cpus = 2
-    end
-  end
-
-  # Define second worker
-  config.vm.define "node-2" do |node_2|
-    node_2.vm.hostname = "node-2"
-    node_2.vm.network "private_network", ip: "192.168.56.102" 
-
-    # Set memory & CPU
-    node_2.vm.provider "virtualbox" do |v|
-      v.memory = 6144
-      v.cpus = 2
     end
   end
 end
