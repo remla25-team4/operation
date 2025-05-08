@@ -37,37 +37,23 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  # Define first worker
-  config.vm.define "node-1" do |node_1|
-    node_1.vm.hostname = "node-1"
-    node_1.vm.network "private_network", ip: "192.168.56.101" 
+  # Define workers
+  (1..2).each do |i|
+    # Define first worker
+    config.vm.define "node-#{i}" do |node|
+      node.vm.hostname = "node-#{i}"
+      node.vm.network "private_network", ip: "192.168.56.10#{i}" 
 
-    # Set memory & CPU
-    node_1.vm.provider "virtualbox" do |v|
-      v.memory = 6144
-      v.cpus = 2
-    end
+      # Set memory & CPU
+      node.vm.provider "virtualbox" do |v|
+        v.memory = 6144
+        v.cpus = 2
+      end
 
-    # Open the node playbook.
-    node_1.vm.provision :ansible do |a|
-      a.playbook = "node.yaml"
-    end
-  end
-
-  # Define second worker
-  config.vm.define "node-2" do |node_2|
-    node_2.vm.hostname = "node-2"
-    node_2.vm.network "private_network", ip: "192.168.56.102" 
-
-    # Set memory & CPU
-    node_2.vm.provider "virtualbox" do |v|
-      v.memory = 6144
-      v.cpus = 2
-    end
-
-    # Open the node playbook.
-    node_2.vm.provision :ansible do |a|
-      a.playbook = "node.yaml"
+      # Open the node playbook.
+      node.vm.provision :ansible do |a|
+        a.playbook = "node.yaml"
+      end
     end
   end
 end
