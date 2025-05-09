@@ -37,3 +37,17 @@
     - name: Display br_netfilter load status
       debug:
         msg: "{{ br_netfilter_check.stdout }}"
+
+    - name: Ensure required sysctl params for Kubernetes networking
+      ansible.builtin.sysctl:
+        name: "{{ item.name }}"
+        value: "{{ item.value }}"
+        sysctl_file: /etc/sysctl.d/k8s.conf
+        state: present
+        reload: yes
+      loop:
+        - { name: net.ipv4.ip_forward,                 value: "1" }
+        - { name: net.bridge.bridge-nf-call-iptables,  value: "1" }
+        - { name: net.bridge.bridge-nf-call-ip6tables, value: "1" }
+      loop_control:
+        label: "{{ item.name }}"
