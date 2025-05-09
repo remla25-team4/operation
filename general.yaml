@@ -1,0 +1,18 @@
+- hosts: all
+  become: true
+  tasks: 
+  - name: Add SSH key
+    ansible.posix.authorized_key:
+      user: vagrant
+      state: present
+      key: '{{ item }}'
+    with_file:
+      - public-keys/alexgliga
+      - public-keys/alexpostu
+  - name: Disable swap
+    ansible.builtin.shell: swapoff -a
+  - name: Prevent re-mounting
+    ansible.builtin.lineinfile:
+      path: /etc/fstab
+      state: absent
+      regexp: 'swap'

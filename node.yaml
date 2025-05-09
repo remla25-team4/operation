@@ -1,0 +1,12 @@
+- hosts: all
+  become: true
+  tasks:
+    - name: Add modules
+      ansible.builtin.copy:
+        content: "overlay\nbr_netfilter"
+        dest: /etc/modules-load.d/k8s.conf
+    - name: Load modules
+      community.general.modprobe:
+        name: br_netfilter
+        state: present
+    

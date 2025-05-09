@@ -34,7 +34,7 @@ docker compose up
 The app will start two services:
 
 * `app` (frontend + backend) at [http://localhost:3001](http://localhost:3001)
-* `model-service` (ML API) internally at `http://model-service:8080`
+* `model-service` (ML API) internally at `http://localhost:8080`
 
 ---
 
@@ -43,8 +43,8 @@ The app will start two services:
 Variables defined in the `.env` file:
 
 ```env
-MODEL_URL=https://github.com/remla25-team4/model-training/models/naive_bayes.joblib
-MODEL_SERVICE_URL=http://model-service:8080
+MODEL_URL="https://github.com/remla25-team4/model-training/raw/main/models/naive_bayes.joblib"
+MODEL_SERVICE_URL=http://localhost:8080
 ```
 
 * `MODEL_URL` points to the trained model file
