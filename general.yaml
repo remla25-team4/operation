@@ -16,3 +16,10 @@
       path: /etc/fstab
       state: absent
       regexp: 'swap'
+  - name: Distribute static /etc/hosts with cluster mappings
+    ansible.builtin.copy:
+      src: files/hosts
+      dest: /etc/hosts
+      owner: root
+      group: root
+      mode: '0644'
