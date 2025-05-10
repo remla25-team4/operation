@@ -55,3 +55,20 @@
   - name: Update apt cache
     ansible.builtin.apt:
       update_cache: yes
+  
+  - name: Install containerd and runc from Ubuntu
+    ansible.builtin.apt:
+      name:
+        - containerd
+        - runc
+      state: present
+      update_cache: no
+
+  - name: Install kubeadm, kubelet and kubectl
+    ansible.builtin.apt:
+      name:
+        - kubeadm
+        - kubelet
+        - kubectl
+      state: present
+      update_cache: no
