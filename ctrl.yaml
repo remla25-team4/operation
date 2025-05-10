@@ -7,7 +7,7 @@
       register: kubeconfig_file
 
     - name: Initialize Kubernetes cluster
-      command: >
+      ansible.builtin.command: >
         kubeadm init
         --apiserver-advertise-address=192.168.56.100
         --node-name=ctrl
@@ -15,7 +15,7 @@
       when: not kubeconfig_file.stat.exists
 
     - name: Create .kube directory for vagrant user
-      file:
+      ansible.builtin.file:
         path: /home/vagrant/.kube
         state: directory
         owner: vagrant
@@ -24,7 +24,7 @@
       when: not kubeconfig_file.stat.exists
 
     - name: Copy admin.conf for vagrant user
-      copy:
+      ansible.builtin.copy:
         src: /etc/kubernetes/admin.conf
         dest: /home/vagrant/.kube/config
         owner: vagrant
@@ -34,8 +34,26 @@
       when: not kubeconfig_file.stat.exists
 
     - name: Copy kubeconfig to host machine
-      fetch:
+      ansible.builtin.fetch:
         src: /etc/kubernetes/admin.conf
         dest: ./kubeconfig
         flat: yes
+      when: not kubeconfig_file.stat.exists
+
+    - name: Download kube-flannel.yml
+      ansible.builtin.get_url:
+        url: https://github.com/flannel-io/flannel/releases/tag/v0.26.7/download/kube-flannel.yml
+        dest: /tmp/kube-flannel.yml
+      when: not kubeconfig_file.stat.exists
+
+    - name: Add iface argument to kube-flannel.yml DaemonSet
+      ansible.builtin.replace:
+        path: /tmp/kube-flannel.yml
+        regexp: '(      - args:\n        - --ip-masq\n        - --kube-subnet-mgr)'
+        replace: '      - args:\n        - --ip-masq\n        - --kube-subnet-mgr\n        - --iface=eth1'
+      when: not kubeconfig_file.stat.exists
+
+    - name: Apply modified kube-flannel.yml
+      ansible.builtin.command: kubectl apply -f /tmp/kube-flannel.yml
+      become_user: vagrant
       when: not kubeconfig_file.stat.exists
