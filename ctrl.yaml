@@ -13,3 +13,29 @@
         --node-name=ctrl
         --pod-network-cidr=10.244.0.0/16
       when: not kubeconfig_file.stat.exists
+
+    - name: Create .kube directory for vagrant user
+      file:
+        path: /home/vagrant/.kube
+        state: directory
+        owner: vagrant
+        group: vagrant
+        mode: '0755'
+      when: not kubeconfig_file.stat.exists
+
+    - name: Copy admin.conf for vagrant user
+      copy:
+        src: /etc/kubernetes/admin.conf
+        dest: /home/vagrant/.kube/config
+        owner: vagrant
+        group: vagrant
+        mode: '0644'
+        remote_src: yes
+      when: not kubeconfig_file.stat.exists
+
+    - name: Copy kubeconfig to host machine
+      fetch:
+        src: /etc/kubernetes/admin.conf
+        dest: ./kubeconfig
+        flat: yes
+      when: not kubeconfig_file.stat.exists
