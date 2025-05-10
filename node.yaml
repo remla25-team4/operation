@@ -9,4 +9,45 @@
       community.general.modprobe:
         name: br_netfilter
         state: present
+    - name: Create Kubernetes module load configuration
+      ansible.builtin.copy:
+        content: |
+          overlay
+          br_netfilter
+        dest: /etc/modules-load.d/k8s.conf
     
+    - name: Load overlay module
+      ansible.builtin.shell: modprobe overlay
+    
+    - name: Load br_netfilter module
+      ansible.builtin.shell: modprobe br_netfilter
+    
+    - name: Verify overlay is loaded
+      ansible.builtin.shell: lsmod | grep overlay
+      register: overlay_check
+
+    - name: Verify br_netfilter is loaded
+      ansible.builtin.shell: lsmod | grep br_netfilter
+      register: br_netfilter_check
+    
+    - name: Display overlay load status
+      debug:
+        msg: "{{ overlay_check.stdout }}"
+    
+    - name: Display br_netfilter load status
+      debug:
+        msg: "{{ br_netfilter_check.stdout }}"
+
+    - name: Ensure required sysctl params for Kubernetes networking
+      ansible.builtin.sysctl:
+        name: "{{ item.name }}"
+        value: "{{ item.value }}"
+        sysctl_file: /etc/sysctl.d/k8s.conf
+        state: present
+        reload: yes
+      loop:
+        - { name: net.ipv4.ip_forward,                 value: "1" }
+        - { name: net.bridge.bridge-nf-call-iptables,  value: "1" }
+        - { name: net.bridge.bridge-nf-call-ip6tables, value: "1" }
+      loop_control:
+        label: "{{ item.name }}"

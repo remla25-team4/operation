@@ -16,3 +16,102 @@
       path: /etc/fstab
       state: absent
       regexp: 'swap'
+  - name: Distribute static /etc/hosts with cluster mappings
+    ansible.builtin.copy:
+      src: files/hosts
+      dest: /etc/hosts
+      owner: root
+      group: root
+      mode: '0644'
+
+  - name: Ensure apt-transport-https is present
+    ansible.builtin.apt:
+      name: apt-transport-https
+      state: present
+      update_cache: yes
+
+  - name: Create directory for apt keyrings
+    ansible.builtin.file:
+      path: /etc/apt/keyrings
+      state: directory
+      owner: root
+      group: root
+      mode: '0755'
+
+  - name: Add Kubernetes GPG keyring
+    ansible.builtin.apt_key:
+      url: https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key
+      keyring: /etc/apt/keyrings/kubernetes-archive-keyring.gpg
+      state: present
+
+  - name: Add the community Kubernetes apt repository
+    ansible.builtin.apt_repository:
+      repo: >-
+        deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg]
+        https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /
+      filename: kubernetes
+      state: present
+
+  - name: Update apt cache
+    ansible.builtin.apt:
+      update_cache: yes
+  
+  - name: Install containerd and runc from Ubuntu
+    ansible.builtin.apt:
+      name:
+        - containerd
+        - runc
+      state: present
+      update_cache: no
+
+  - name: Install kubeadm, kubelet and kubectl
+    ansible.builtin.apt:
+      name:
+        - kubeadm
+        - kubelet
+        - kubectl
+      state: present
+      update_cache: no
+
+  - name: Ensure /etc/containerd directory exists
+    ansible.builtin.file:
+      path: /etc/containerd
+      state: directory
+      owner: root
+      group: root
+      mode: '0755'
+
+  - name: Generate default containerd config if missing
+    ansible.builtin.shell: >
+      containerd config default > /etc/containerd/config.toml
+    args:
+      creates: /etc/containerd/config.toml
+
+  - name: Disable AppArmor in containerd config
+    ansible.builtin.lineinfile:
+      path: /etc/containerd/config.toml
+      regexp: '^\s*disable_apparmor\s*='
+      line: '            disable_apparmor = true'
+
+  - name: Update sandbox image version in containerd config
+    ansible.builtin.lineinfile:
+      path: /etc/containerd/config.toml
+      regexp: '^\s*sandbox_image\s*='
+      line: '            sandbox_image = "registry.k8s.io/pause:3.10"'
+
+  - name: Enable systemd cgroup in runc options
+    ansible.builtin.lineinfile:
+      path: /etc/containerd/config.toml
+      regexp: '^\s*SystemdCgroup\s*='
+      line: '        SystemdCgroup = true'
+
+  - name: Restart containerd to load new config
+    ansible.builtin.service:
+      name: containerd
+      state: restarted
+
+  - name: Enable and start kubelet service
+    ansible.builtin.systemd:
+      name: kubelet
+      enabled: yes
+      state: started
