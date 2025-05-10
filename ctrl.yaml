@@ -49,7 +49,7 @@
     - name: Add iface argument to kube-flannel.yml DaemonSet
       ansible.builtin.replace:
         path: /tmp/kube-flannel.yml
-        regexp: '(      - args:\n        - --ip-masq\n        - --kube-subnet-mgr)'
+        regexp: '      - args:\n        - --ip-masq\n        - --kube-subnet-mgr'
         replace: '      - args:\n        - --ip-masq\n        - --kube-subnet-mgr\n        - --iface=eth1'
       when: not kubeconfig_file.stat.exists
 
@@ -57,3 +57,28 @@
       ansible.builtin.command: kubectl apply -f /tmp/kube-flannel.yml
       become_user: vagrant
       when: not kubeconfig_file.stat.exists
+
+    - name: Add Helm GPG keyring
+      ansible.builtin.apt_key:
+        url: https://baltocdn.com/helm/signing.asc
+        keyring: /usr/share/keyrings/helm.gpg
+        state: present
+
+    - name: Add the community Helm apt repository
+      ansible.builtin.apt_repository:
+        repo: >-
+          deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] 
+          https://baltocdn.com/helm/stable/debian/ all main
+        filename: helm
+        state: present   
+
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: yes 
+
+    - name: Install helm
+      ansible.builtin.apt:
+        name:
+          - helm
+        state: present
+        update_cache: no
