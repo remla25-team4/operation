@@ -72,3 +72,46 @@
         - kubectl
       state: present
       update_cache: no
+
+  - name: Ensure /etc/containerd directory exists
+    ansible.builtin.file:
+      path: /etc/containerd
+      state: directory
+      owner: root
+      group: root
+      mode: '0755'
+
+  - name: Generate default containerd config if missing
+    ansible.builtin.shell: >
+      containerd config default > /etc/containerd/config.toml
+    args:
+      creates: /etc/containerd/config.toml
+
+  - name: Disable AppArmor in containerd config
+    ansible.builtin.lineinfile:
+      path: /etc/containerd/config.toml
+      regexp: '^\s*disable_apparmor\s*='
+      line: '            disable_apparmor = true'
+
+  - name: Update sandbox image version in containerd config
+    ansible.builtin.lineinfile:
+      path: /etc/containerd/config.toml
+      regexp: '^\s*sandbox_image\s*='
+      line: '            sandbox_image = "registry.k8s.io/pause:3.10"'
+
+  - name: Enable systemd cgroup in runc options
+    ansible.builtin.lineinfile:
+      path: /etc/containerd/config.toml
+      regexp: '^\s*SystemdCgroup\s*='
+      line: '        SystemdCgroup = true'
+
+  - name: Restart containerd to load new config
+    ansible.builtin.service:
+      name: containerd
+      state: restarted
+
+  - name: Enable and start kubelet service
+    ansible.builtin.systemd:
+      name: kubelet
+      enabled: yes
+      state: started
