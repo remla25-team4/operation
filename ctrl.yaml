@@ -82,3 +82,7 @@
           - helm
         state: present
         update_cache: no
+    
+    - name: Install helm diff
+      ansible.builtin.command: >
+        helm plugin install https://github.com/databus23/helm-diff
