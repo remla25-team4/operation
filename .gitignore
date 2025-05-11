@@ -1,1 +1,5 @@
 .vagrant/
+
+kubeconfig
+.kube/
+/etc/kubernetes/admin.conf
