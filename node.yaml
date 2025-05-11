@@ -54,7 +54,7 @@
         
     - name: Get kubeadm join command from our controller
       shell: kubeadm token create --print-join-command
-      delegate_to: master
+      delegate_to: ctrl
       register: join_command
       run_once: true
       
