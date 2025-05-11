@@ -51,3 +51,12 @@
         - { name: net.bridge.bridge-nf-call-ip6tables, value: "1" }
       loop_control:
         label: "{{ item.name }}"
+        
+    - name: Get kubeadm join command from our controller
+      shell: kubeadm token create --print-join-command
+      delegate_to: controller
+      register: join_command
+      run_once: true
+      
+      
+      
