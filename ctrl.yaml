@@ -82,7 +82,11 @@
           - helm
         state: present
         update_cache: no
-    
-    - name: Install helm diff
-      ansible.builtin.command: >
-        helm plugin install https://github.com/databus23/helm-diff
+
+    - name: Install helm diff for vagrant user
+      ansible.builtin.command: helm plugin install https://github.com/databus23/helm-diff
+      become_user: vagrant
+      environment:
+        HOME: /home/vagrant # Ensures helm installs plugins in vagrant's home
+      args:
+        creates: /home/vagrant/.local/share/helm/plugins/helm-diff
