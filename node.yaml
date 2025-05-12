@@ -6,3 +6,5 @@
       delegate_to: ctrl
       register: join_command
       run_once: true
+    - name: Join the node to the cluster
+      ansible.builtin.shell: "{{ join_command.stdout }}"
