@@ -3,10 +3,16 @@
   become: no
   gather_facts: no
   vars:
-    metallb_local_manifest: "metallb-native-v0.14.9.yml"
+    metallb_local_manifest: "metallb-native-v0.14.9.yaml"
     metallb_ip_range: "192.168.56.90-192.168.56.99"
     metallb_namespace: "metallb-system"
     metallb_repo_path: "files/"
+
+    ingress_namespace: "ingress-nginx"
+    ingress_chart_repo_url: "https://kubernetes.github.io/ingress-nginx"
+    ingress_chart_name: "ingress-nginx"
+    ingress_release_name: "ingress-nginx"
+    ingress_fixed_ip: "192.168.56.90"
 
   tasks:
     # Install MetalLB
@@ -27,6 +33,12 @@
       kubernetes.core.k8s:
         state: present
         src: "/tmp/{{ metallb_local_manifest }}"
+
+    - name: Wait for MetalLB controller/webhook to be ready
+      ansible.builtin.command: >
+        kubectl wait -n metallb-system -l app=metallb,component=controller --for=condition=ready pod
+        --timeout=60s
+      changed_when: false
 
     - name: Define MetalLB IPAddressPool
       kubernetes.core.k8s:
@@ -54,10 +66,35 @@
             ipAddressPools:
               - default-pool
 
-    - name: Wait for MetalLB controller to be ready
+    # step 21
+    - name: Add ingress-nginx Helm repository
+      community.kubernetes.helm_repository:
+        name: ingress-nginx
+        repo_url: "https://kubernetes.github.io/ingress-nginx"
+        state: present
+
+    - name: Ensure ingress namespace exists
+      kubernetes.core.k8s:
+        name: ingress-nginx
+        api_version: v1
+        kind: Namespace
+        state: present
+
+    - name: Install/Upgrade ingress-nginx Helm chart with fixed IP
+      community.kubernetes.helm:
+        name: ingress-nginx
+        chart_ref: ingress-nginx/ingress-nginx
+        release_namespace: ingress-nginx
+        create_namespace: yes
+        state: present
+        values:
+          controller:
+            service:
+              loadBalancerIP: 192.168.56.90
+
+    - name: Wait for Nginx controller Deployment to be ready
       ansible.builtin.command: >
-        kubectl wait --for condition=ready pod
-        --selector=app=metallb,component=controller
-        -n {{ metallb_namespace }}
-        --timeout=120s
+        kubectl wait deployment {{ ingress_release_name }}-controller --for condition=Available=True
+        -n {{ ingress_namespace }}
+        --timeout=60s
       changed_when: false
