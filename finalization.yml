@@ -1,0 +1,63 @@
+---
+- hosts: 192.168.56.100
+  become: no
+  gather_facts: no
+  vars:
+    metallb_local_manifest: "metallb-native-v0.14.9.yml"
+    metallb_ip_range: "192.168.56.90-192.168.56.99"
+    metallb_namespace: "metallb-system"
+    metallb_repo_path: "files/"
+
+  tasks:
+    # Install MetalLB
+    - name: Ensure MetalLB namespace exists
+      kubernetes.core.k8s:
+        name: "{{ metallb_namespace }}"
+        api_version: v1
+        kind: Namespace
+        state: present
+
+    - name: Copy local MetalLB manifest to controller node
+      ansible.builtin.copy:
+        src: "{{ metallb_repo_path }}{{ metallb_local_manifest }}"
+        dest: "/tmp/{{ metallb_local_manifest }}"
+        mode: '0644'
+
+    - name: Apply MetalLB manifest from controller node
+      kubernetes.core.k8s:
+        state: present
+        src: "/tmp/{{ metallb_local_manifest }}"
+
+    - name: Define MetalLB IPAddressPool
+      kubernetes.core.k8s:
+        state: present
+        definition:
+          apiVersion: metallb.io/v1beta1
+          kind: IPAddressPool
+          metadata:
+            name: default-pool
+            namespace: "{{ metallb_namespace }}"
+          spec:
+            addresses:
+              - "{{ metallb_ip_range }}"
+
+    - name: Define MetalLB L2Advertisement
+      kubernetes.core.k8s:
+        state: present
+        definition:
+          apiVersion: metallb.io/v1beta1
+          kind: L2Advertisement
+          metadata:
+            name: default-l2
+            namespace: "{{ metallb_namespace }}"
+          spec:
+            ipAddressPools:
+              - default-pool
+
+    - name: Wait for MetalLB controller to be ready
+      ansible.builtin.command: >
+        kubectl wait --for condition=ready pod
+        --selector=app=metallb,component=controller
+        -n {{ metallb_namespace }}
+        --timeout=120s
+      changed_when: false

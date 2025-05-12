@@ -9,6 +9,7 @@
     with_file:
       - public-keys/alexgliga
       - public-keys/alexpostu
+      - public-keys/yulin
   - name: Disable swap
     ansible.builtin.shell: swapoff -a
   - name: Prevent re-mounting
