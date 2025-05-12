@@ -21,3 +21,9 @@
   - Created PR: [Operation](https://github.com/remla25-team4/operation/pull/1)
   - Approved PR: [Lib-ml](https://github.com/remla25-team4/lib-ml/pull/1)
   - Approved PR: [Lib-service](https://github.com/remla25-team4/lib-version/pull/1)
+ 
+# A2
+- Ahmed Driouech:
+    - Created PR: [steps 13 to 17](https://github.com/remla25-team4/operation/pull/4)
+    - Created PR: [Testing + bug fixes](https://github.com/remla25-team4/operation/pull/6)
+    - Approved PR: [steps 18 to 19](https://github.com/remla25-team4/operation/pull/5)
