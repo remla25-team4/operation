@@ -7,6 +7,9 @@ This app will allow the user to enter short restaurant reviews via our UI. These
 ---
 
 
+
+
+
 ## How to run our application for Assignment 1
 ### Requirements
 
@@ -72,7 +75,6 @@ cd operation
 ```bash
 vagrant up
 ```
----
 
 
 ## Related Repositories 
@@ -113,3 +115,9 @@ vagrant up
 * Built and containerized both app and model-service.
 
 
+### Assignment 2 (12/05/2025)
+
+* Provisioned a multi-node Kubernetes cluster using Vagrant and Ansible (1 controller and 2 worker)
+* Installed core elements such as: Flannel, Helm, MetalLB, Ingress Controller 
+* Automated cluster configuration with Ansible playbooks for all nodes
+* Prepared the environment for Kubernetes-based deployment of the sentiment analysis application.
