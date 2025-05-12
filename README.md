@@ -6,7 +6,7 @@ This app will allow the user to enter short restaurant reviews via our UI. These
 
 ---
 
-## How to run our application
+## How to run our application for Assignment 1
 ### Requirements
 
 * Docker installed
@@ -38,7 +38,7 @@ The app will start two services:
 
 ---
 
-## Environment Configuration
+### Environment Configuration
 
 Variables defined in the `.env` file:
 
@@ -51,6 +51,27 @@ MODEL_SERVICE_URL=http://localhost:8080
 * `MODEL_SERVICE_URL` tells the app where to find the model API
 
 ---
+
+
+## How to run our application for Assignment 2
+### Requirements
+* VirtualBox installed
+* Vagrant installed
+* Ansible installed
+
+### Steps to start the Kubernetes cluster
+1. Clone the operations repository (if not already):
+
+```bash
+git clone https://github.com/remla25-team4/operation.git
+cd operation
+```
+
+2. Start the virtual machines with Vagrant
+```bash
+vagrant up
+```
+
 
 ## Related Repositories 
 
@@ -90,3 +111,9 @@ MODEL_SERVICE_URL=http://localhost:8080
 * Built and containerized both app and model-service.
 
 
+### Assignment 2 (12/05/2025)
+
+* Provisioned a multi-node Kubernetes cluster using Vagrant and Ansible (1 controller and 2 worker)
+* Installed core elements such as: Flannel, Helm, MetalLB, Ingress Controller 
+* Automated cluster configuration with Ansible playbooks for all nodes
+* Prepared the environment for Kubernetes-based deployment of the sentiment analysis application.
