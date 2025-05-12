@@ -42,7 +42,7 @@
 
     - name: Download kube-flannel.yml
       ansible.builtin.get_url:
-        url: https://github.com/flannel-io/flannel/releases/tag/v0.26.7/download/kube-flannel.yml
+        url: https://github.com/flannel-io/flannel/releases/download/v0.26.7/kube-flannel.yml
         dest: /tmp/kube-flannel.yml
       when: not kubeconfig_file.stat.exists
 
@@ -58,6 +58,11 @@
       become_user: vagrant
       when: not kubeconfig_file.stat.exists
 
+    - name: Get system architecture (dpkg)
+      ansible.builtin.command: dpkg --print-architecture
+      register: dpkg_arch
+      changed_when: false
+
     - name: Add Helm GPG keyring
       ansible.builtin.apt_key:
         url: https://baltocdn.com/helm/signing.asc
@@ -67,9 +72,9 @@
     - name: Add the community Helm apt repository
       ansible.builtin.apt_repository:
         repo: >-
-          deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] 
+          deb [arch={{ dpkg_arch.stdout }} signed-by=/usr/share/keyrings/helm.gpg] 
           https://baltocdn.com/helm/stable/debian/ all main
-        filename: helm
+        filename: helm-stable-debian
         state: present   
 
     - name: Update apt cache
