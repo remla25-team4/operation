@@ -15,8 +15,10 @@
   - Created PR: [Model service](https://github.com/remla25-team4/model-service/pull/2)
   - Created PR: [Model service](https://github.com/remla25-team4/model-service/pull/1)
   - Created PR: [Model training](https://github.com/remla25-team4/model-training/pull/3)
+  - Created PR: [operation](https://github.com/remla25-team4/operation/pull/3)
   - Approved PR: [App](https://github.com/remla25-team4/app/pull/1)
   - Approved PR: [Model training](https://github.com/remla25-team4/model-training/pull/4)
+  - Approved PR: [operation](https://github.com/remla25-team4/operation/pull/2)
 - Maria Clara Espírito Santo
   - Created PR: [Operation](https://github.com/remla25-team4/operation/pull/1)
   - Approved PR: [Lib-ml](https://github.com/remla25-team4/lib-ml/pull/1)
