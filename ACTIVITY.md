@@ -30,3 +30,9 @@
 - Alexandru Postu:
     - Created PR: [steps 1 to 6](https://github.com/remla25-team4/operation/pull/2)
     - Approved PR:[finish up first part of assignment](https://github.com/remla25-team4/operation/pull/3)
+- Yulin Chen:
+    - Created PR: [steps 20-23](https://github.com/remla25-team4/operation/pull/8)
+    - Approved PR: [Steps 13 until 17 of assignment 2](https://github.com/remla25-team4/operation/pull/4)
+    - Approved PR: [Adding the final step 19 join command and resolving all the merge conflicts](https://github.com/remla25-team4/operation/pull/7)
+    - Approved PR: [Test until step 19 + bug fixes](https://github.com/remla25-team4/operation/pull/6)
+
