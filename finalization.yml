@@ -1,0 +1,195 @@
+---
+- hosts: 192.168.56.100
+  become: no
+  gather_facts: no
+
+  tasks:
+    # step 20 Install MetalLB
+    - name: Ensure MetalLB namespace exists
+      kubernetes.core.k8s:
+        name: "metallb-system"
+        api_version: v1
+        kind: Namespace
+        state: present
+
+    - name: Copy local MetalLB manifest to controller node
+      ansible.builtin.copy:
+        src: "files/metallb-native-v0.14.9.yaml"
+        dest: "/tmp/metallb-native-v0.14.9.yaml"
+        mode: '0644'
+
+    - name: Apply MetalLB manifest from controller node
+      kubernetes.core.k8s:
+        state: present
+        src: "/tmp/metallb-native-v0.14.9.yaml"
+
+    - name: Wait for MetalLB controller/webhook to be ready
+      ansible.builtin.command: >
+        kubectl wait -n metallb-system -l app=metallb,component=controller --for=condition=ready pod
+        --timeout=60s
+      changed_when: false
+
+    - name: Define MetalLB IPAddressPool
+      kubernetes.core.k8s:
+        state: present
+        definition:
+          apiVersion: metallb.io/v1beta1
+          kind: IPAddressPool
+          metadata:
+            name: default-pool
+            namespace: "metallb-system"
+          spec:
+            addresses:
+              - "192.168.56.90-192.168.56.99"
+
+    - name: Define MetalLB L2Advertisement
+      kubernetes.core.k8s:
+        state: present
+        definition:
+          apiVersion: metallb.io/v1beta1
+          kind: L2Advertisement
+          metadata:
+            name: default-l2
+            namespace: "metallb-system"
+          spec:
+            ipAddressPools:
+              - default-pool
+
+    # step 21: add nginx ingress controller
+    - name: Add ingress-nginx Helm repository
+      kubernetes.core.helm_repository:
+        name: ingress-nginx
+        repo_url: "https://kubernetes.github.io/ingress-nginx"
+        state: present
+
+    - name: Ensure ingress namespace exists
+      kubernetes.core.k8s:
+        name: "ingress-nginx"
+        api_version: v1
+        kind: Namespace
+        state: present
+
+    - name: Install/Upgrade ingress-nginx Helm chart with fixed IP
+      kubernetes.core.helm:
+        name: "ingress-nginx"
+        chart_ref: "ingress-nginx/ingress-nginx"
+        release_namespace: "ingress-nginx"
+        create_namespace: yes
+        state: present
+        values:
+          controller:
+            service:
+              loadBalancerIP: "192.168.56.90"
+
+    - name: Wait for Nginx controller Deployment to be ready
+      ansible.builtin.command: >
+        kubectl wait deployment ingress-nginx-controller --for condition=Available=True
+        -n ingress-nginx
+        --timeout=60s
+      changed_when: false
+
+    # Step 22: get Kubernetes Dashboard
+    - name: Add Kubernetes Dashboard Helm repository
+      kubernetes.core.helm_repository:
+        name: "kubernetes-dashboard"
+        repo_url: "https://kubernetes.github.io/dashboard/"
+        state: present
+
+    - name: Ensure Kubernetes Dashboard namespace exists
+      kubernetes.core.k8s:
+        name: "kubernetes-dashboard"
+        api_version: v1
+        kind: Namespace
+        state: present
+
+    - name: Install Kubernetes Dashboard Helm chart
+      kubernetes.core.helm:
+        name: "kubernetes-dashboard"
+        chart_ref: "kubernetes-dashboard/kubernetes-dashboard"
+        release_namespace: "kubernetes-dashboard"
+        create_namespace: yes
+        state: present
+
+    - name: Create Dashboard Admin ServiceAccount
+      kubernetes.core.k8s:
+        state: present
+        definition:
+          apiVersion: v1
+          kind: ServiceAccount
+          metadata:
+            name: "admin-user"
+            namespace: "kubernetes-dashboard"
+
+    - name: Create Dashboard Admin ClusterRoleBinding
+      kubernetes.core.k8s:
+        state: present
+        definition:
+          apiVersion: rbac.authorization.k8s.io/v1
+          kind: ClusterRoleBinding
+          metadata:
+            name: "admin-user-cluster-admin"
+          roleRef:
+            apiGroup: rbac.authorization.k8s.io
+            kind: ClusterRole
+            name: cluster-admin
+          subjects:
+            - kind: ServiceAccount
+              name: "admin-user"
+              namespace: "kubernetes-dashboard"
+
+    - name: Create Ingress for Kubernetes Dashboard
+      kubernetes.core.k8s:
+        state: present
+        definition:
+          apiVersion: networking.k8s.io/v1
+          kind: Ingress
+          metadata:
+            name: kubernetes-dashboard-ingress
+            namespace: "kubernetes-dashboard"
+            annotations:
+              nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+          spec:
+            ingressClassName: nginx
+            rules:
+              - host: "dashboard.local"
+                http:
+                  paths:
+                    - path: /
+                      pathType: Prefix
+                      backend:
+                        service:
+                          name: kubernetes-dashboard-kong-proxy
+                          port:
+                            number: 443
+
+    # step 23 get istio
+    - name: Download and Unarchive Istio 1.25.2
+      ansible.builtin.unarchive:
+        src: "https://github.com/istio/istio/releases/download/1.25.2/istio-1.25.2-linux-arm64.tar.gz"
+        dest: "/home/vagrant/"
+        owner: vagrant
+        group: vagrant
+        remote_src: yes
+        # Idempotent - don't re-download/extract if istioctl binary is already there
+        creates: "/home/vagrant/istio-1.25.2/bin/istioctl"
+
+    - name: Add Istio 1.25.2 istioctl to vagrant user's PATH in .profile
+      ansible.builtin.lineinfile:
+        path: /home/vagrant/.profile
+        line: 'export PATH="$HOME/istio-1.25.2/bin:$PATH"'
+        create: yes
+        owner: vagrant
+        group: vagrant
+        mode: '0644'
+        regexp: '^export PATH="\$HOME/istio-1.25.2/bin:'
+
+    - name: Install Istio 1.25.2 using istioctl
+      ansible.builtin.command:
+        cmd: "/home/vagrant/istio-1.25.2/bin/istioctl install -y" # auto confirm installation prompts for user
+      become: yes
+      become_user: vagrant
+      environment:
+        KUBECONFIG: "/home/vagrant/.kube/config"
+      args:
+        chdir: "/home/vagrant/istio-1.25.2"
+

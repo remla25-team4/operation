@@ -95,3 +95,17 @@
         HOME: /home/vagrant # Ensures helm installs plugins in vagrant's home
       args:
         creates: /home/vagrant/.local/share/helm/plugins/helm-diff
+
+    - name: Ensure python3-pip is installed
+      become: true
+      ansible.builtin.apt:
+        name: python3-pip
+        state: present
+        update_cache: yes
+
+    - name: Ensure Kubernetes Python client library is installed via apt
+      become: true
+      ansible.builtin.apt:
+        name: python3-kubernetes
+        state: present
+        update_cache: yes

@@ -9,6 +9,7 @@
     with_file:
       - public-keys/alexgliga
       - public-keys/alexpostu
+      - public-keys/yulin
   - name: Disable swap
     ansible.builtin.shell: swapoff -a
   - name: Prevent re-mounting
@@ -72,6 +73,17 @@
         - kubectl
       state: present
       update_cache: no
+
+  - name: Configure Kubelet to use the eth1 IP address as Node IP. # added to avoid nodes using eth0 which is non-unique
+    ansible.builtin.lineinfile:
+      path: /etc/default/kubelet
+      regexp: '^KUBELET_EXTRA_ARGS='
+      line: 'KUBELET_EXTRA_ARGS="--node-ip={{ ansible_eth1.ipv4.address }}"'
+      create: yes
+      owner: root
+      group: root
+      mode: '0644'
+    when: ansible_eth1.ipv4.address is defined
 
   - name: Ensure /etc/containerd directory exists
     ansible.builtin.file:
