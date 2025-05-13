@@ -36,8 +36,8 @@
     - Approved PR: [Adding the final step 19 join command and resolving all the merge conflicts](https://github.com/remla25-team4/operation/pull/7)
     - Approved PR: [Test until step 19 + bug fixes](https://github.com/remla25-team4/operation/pull/6)
 - Alexandru Gliga:
-  - Created PR: [Operation](https://github.com/remla25-team4/operation/pull/2)
-  - Approved PR: [Operation](https://github.com/remla25-team4/operation/pull/3)
+  - Created PR: [finish up first part of assignment](https://github.com/remla25-team4/operation/pull/2)
+  - Approved PR: [steps 1 to 6](https://github.com/remla25-team4/operation/pull/3)
 - Maria Clara Espírito Santo
   - Created PR: [Operation](https://github.com/remla25-team4/operation/pull/7)
   - Approved PR: [Operation](https://github.com/remla25-team4/operation/pull/8)
