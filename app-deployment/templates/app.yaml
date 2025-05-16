@@ -1,0 +1,122 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.fullnameOverride }}-app
+  labels:
+    app: {{ .Values.fullnameOverride }}-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.fullnameOverride }}-app
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.fullnameOverride }}-app
+    spec:
+      containers:
+      - name: {{ .Values.app.name }}
+        image: "{{ .Values.app.image }}:{{ .Values.app.tag }}"
+        ports:
+        - containerPort: {{ .Values.app.port }}
+        #envFrom:
+        #- configMapRef:
+        #    name: {{ .Values.app.name }}-config
+        #- secretRef:
+        #    name: {{ .Values.app.name }}-secret
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.fullnameOverride }}-app
+  labels:
+    app: {{ .Values.fullnameOverride }}-app
+spec:
+  type: ClusterIP
+  selector:
+    app: {{ .Values.fullnameOverride }}-app
+  ports:
+  - name: http
+    port: 80
+    targetPort: {{ .Values.app.port }}
+    
+    
+    
+    
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.fullnameOverride }}-model
+  labels:
+    app: {{ .Values.fullnameOverride }}-model
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.fullnameOverride }}-model
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.fullnameOverride }}-model
+    spec:
+      containers:
+      - name: {{ .Values.model.name }}
+        image: "{{ .Values.model.image }}:{{ .Values.model.tag }}"
+        ports:
+        - containerPort: {{ .Values.model.port }}
+        env:
+        - name: MODEL_URL
+          value: {{ .Values.model.env.MODEL_URL | quote }}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.fullnameOverride }}-model
+  labels:
+    app: {{ .Values.fullnameOverride }}-model
+spec:
+  type: ClusterIP
+  selector:
+    app: {{ .Values.fullnameOverride }}-model
+  ports:
+  - name: http
+    port: 8080
+    targetPort: {{ .Values.model.port }}
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+   
+#---
+#apiVersion: v1
+#kind: ConfigMap
+#metadata:
+#  name: {{ .Values.fullnameOverride }}-config
+#data:
+#  MODEL_SERVICE_URL: {{ .Values.app.env.MODEL_SERVICE_URL | quote }}
+  
+  
+#---
+#apiVersion: v1
+#kind: Secret
+#metadata:
+#  name: {{ .Values.fullnameOverride }}-secret
+#type: Opaque
+#stringData:
+#  smtp_password: ""
+  
+
+  
+    
