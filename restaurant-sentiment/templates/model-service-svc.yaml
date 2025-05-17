@@ -1,0 +1,17 @@
+{{/* operations/restaurant-sentiment/templates/model-service-svc.yaml */}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "restaurant-sentiment.modelService.fullname" . }}
+  labels:
+    {{- include "restaurant-sentiment.labels" . | nindent 4 }}
+    app.kubernetes.io/component: {{ default "model-service"}}
+spec:
+  type: {{ .Values.modelService.service.type }}
+  ports:
+    - port: {{ .Values.modelService.service.port }} # For A3 Helm Good: port configurable
+      targetPort: http # Targets the named port 'http' in the model-service deployment
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "restaurant-sentiment.selectorLabels" (dict "root" . "component" (default "model-service")) | nindent 4 }}

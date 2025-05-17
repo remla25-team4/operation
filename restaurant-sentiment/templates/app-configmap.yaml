@@ -1,0 +1,13 @@
+{{/* operations/restaurant-sentiment/templates/app-configmap.yaml */}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "restaurant-sentiment.app.fullname" . }}-config
+  labels:
+    {{- include "restaurant-sentiment.labels" . | nindent 4 }}
+    app.kubernetes.io/component: app
+data:
+  # using data from values.yaml
+  {{- range $key, $value := .Values.app.configData }}
+  {{ $key }}: {{ $value | quote }}
+  {{- end }}
