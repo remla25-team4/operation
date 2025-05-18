@@ -62,6 +62,7 @@ MODEL_SERVICE_URL=http://localhost:8080
 * VirtualBox installed
 * Vagrant installed
 * Ansible installed
+* SSH enabled (please copy your public key to `operation/public-keys`)
 
 ### Steps to start the Kubernetes cluster
 1. Clone the operations repository (if not already):
@@ -73,13 +74,27 @@ cd operation
 
 2. Start the virtual machines with Vagrant
 ```bash
-vagrant up
+vagrant up --provision
 ```
 
 3. Finalize setup with finalization.yml
 ```bash
 ansible-playbook -u vagrant -i 192.168.56.100, finalization.yml
 ```
+
+4. Add hostname to enable access in the browser
+```bash
+sudo nano /etc/hosts
+```
+Once open, paste this line at the end
+`192.168.56.91   dashboard.local`
+ then save and exit
+
+5. Obtain access token
+```bash
+kubectl -n kubernetes-dashboard create token admin-user
+```
+Use the token displayed on screen to access the kubernetes dashboard at dashboard.local.
 
 ## How to run our application for Assignment 3
 ### Prerequisites
