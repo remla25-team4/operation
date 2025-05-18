@@ -1,0 +1,51 @@
+replicaCount: 1
+
+imagePullPolicy: Always
+
+app:
+  name: app
+  image:
+    repository: ghcr.io/remla25-team4/app
+    tag: "latest"
+  containerPort: 3001
+  service:
+    type: ClusterIP
+    port: 3001 # exposed port for ingress
+  configData: # Data for ConfigMap
+    GREETING_MESSAGE: "Welcome to the Restaurant Sentiment Analyzer (Helm Edition)!"
+#  env:
+#    MODEL_SERVICE_URL: "http://restaurant-sentiment-model-service:8080".
+  secretData:
+    DUMMY_API_KEY: "ultra-secret-placeholder-key"
+
+modelService:
+  name: model-service
+  nameOverride: "model-svc"
+  image:
+    repository: ghcr.io/remla25-team4/model-service
+    tag: "latest"
+  containerPort: 8080
+  service:
+    type: ClusterIP
+    port: 8080
+  env:
+    MODEL_URL: "https://github.com/remla25-team4/model-training/raw/main/models/naive_bayes.joblib"
+    PORT: "8080" # configurable model service port
+  livenessProbe:
+    path: /healthz
+    initialDelaySeconds: 30
+    periodSeconds: 20
+
+# ingress config
+ingress:
+  enabled: true
+  className: "nginx"
+  host: "restaurant.local"
+  path: /
+  pathType: Prefix
+
+# secret setup (dummy)
+appSecrets:
+  enabled: true
+  secretName: "app-secrets"
+  dummyApiKeyName: "DUMMY_API_KEY"

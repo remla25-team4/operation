@@ -1,0 +1,45 @@
+
+{{/* operations/restaurant-sentiment/templates/app-deployment.yaml */}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "restaurant-sentiment.app.fullname" . }}
+  labels:
+    {{- include "restaurant-sentiment.labels" . | nindent 4 }}
+    app.kubernetes.io/component: app
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "restaurant-sentiment.selectorLabels" (dict "root" . "component" "app") | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "restaurant-sentiment.selectorLabels" (dict "root" . "component" "app") | nindent 8 }}
+    spec:
+      containers:
+        - name: app
+          image: "{{ .Values.app.image.repository }}:{{ .Values.app.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.app.containerPort }}
+              protocol: TCP
+          env:
+            - name: MODEL_SERVICE_URL
+              value: "http://{{ include "restaurant-sentiment.modelService.fullname" . }}:{{ .Values.modelService.service.port }}"
+            - name: GREETING_FROM_CM # FROM CONFIGMAP
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "restaurant-sentiment.app.fullname" . }}-config
+                  key: GREETING_MESSAGE
+            # Using Secret data as ENV vars
+            - name: MY_DUMMY_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "restaurant-sentiment.app.fullname" . }}-secret
+                  key: DUMMY_API_KEY
+          envFrom:
+            # Mount all keys from the ConfigMap as environment variables
+            - configMapRef:
+                name: {{ include "restaurant-sentiment.app.fullname" . }}-config

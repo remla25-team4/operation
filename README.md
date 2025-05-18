@@ -1,4 +1,4 @@
-# Restaurant Sentiment Analysis - Group 4
+~~# Restaurant Sentiment Analysis - Group 4
 
 The operations repository is used to run the complete Restaurant Sentiment Analysis application of Group 4. It includes the configuration to deploy the necessary services using Docker Compose.
 
@@ -76,6 +76,68 @@ cd operation
 vagrant up
 ```
 
+3. Finalize setup with finalization.yml
+```bash
+ansible-playbook -u vagrant -i 192.168.56.100, finalization.yml
+```
+
+## How to run our application for Assignment 3
+### Prerequisites
+
+1.  **Kubernetes Cluster:** A running Kubernetes cluster by following the instructions from a2.
+2.  **Helm:** Helm v3 installed. Verify with `helm version`.
+
+### Chart Location
+The Helm chart is located in the `operations/restaurant-sentiment/` directory of this repository.
+
+The primary way to configure the deployment is by modifying the `operations/restaurant-sentiment/values.yaml` file.
+
+Key values you might want to customize:
+
+* **`app.image.tag`**: The tag for the `app` service Docker image (default: `latest`).
+* **`modelService.image.tag`**: The tag for the `model-service` Docker image (default: `latest`).
+* **`modelService.env.MODEL_URL`**: **Crucial.** The URL from which the `model-service` will download the machine learning model.
+    * Default: `"https://github.com/remla25-team4/model-training/raw/main/models/naive_bayes.joblib"`
+* **`ingress.host`**: The hostname for accessing the application via Ingress (default: `"restaurant.local"`). You will likely need to update your local `/etc/hosts` file to point this hostname to your Ingress controller's external IP.
+* **`replicaCount`**: Number of replicas for each deployment (default: `1`).
+* **`imagePullPolicy`**: Default is `Always` to ensure the latest image is pulled.
+* **`app.configData`**: Data to populate the `app` service's ConfigMap.
+* **`app.secretData`** Data to populate the `app` services's secrets.
+* **`modelService.containerPort` / `modelService.env.PORT`**: Port the model service listens on (default: `8080`).
+
+### Installation Steps
+
+1.  **Navigate to the Helm chart directory (optional, can also install from root):**
+    ```bash
+    cd restaurant-sentiment
+    ```
+
+2. **Install the Helm chart:**
+    Choose a release name (e.g., `my-app`) and a namespace (e.g., `default`).
+    If you are inside the `operations/restaurant-sentiment` directory:
+    ```bash
+    helm install my-app . --namespace default
+    ```
+### Accessing the Application
+
+1.  **Get the External IP of your Ingress Controller:**
+    ```bash
+    kubectl get svc -n ingress-nginx ingress-nginx-controller -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+    ```
+    This IP is provided by MetalLB in the A2 setup. (default: 192.168.56.90)
+
+2.  **Update Your Local `/etc/hosts` File:**
+    On your local machine (the one from which you want to access the application), edit your `/etc/hosts` file (e.g., `sudo nano /etc/hosts` on Linux/macOS, or an equivalent for Windows located at `C:\Windows\System32\drivers\etc\hosts`). Add an entry mapping the `ingress.host` (from `values.yaml`, e.g., `restaurant.local`) to the external IP obtained in the previous step.
+    Example:
+    ```
+    192.168.56.90  restaurant.local
+    ```
+
+3.  **Open in Browser:**
+    Open your web browser and navigate to the configured host (e.g., `http://restaurant.local`).
+
+
+
 
 ## Related Repositories 
 
@@ -120,4 +182,4 @@ vagrant up
 * Provisioned a multi-node Kubernetes cluster using Vagrant and Ansible (1 controller and 2 worker)
 * Installed core elements such as: Flannel, Helm, MetalLB, Ingress Controller 
 * Automated cluster configuration with Ansible playbooks for all nodes
-* Prepared the environment for Kubernetes-based deployment of the sentiment analysis application.
+* Prepared the environment for Kubernetes-based deployment of the sentiment analysis application.~~

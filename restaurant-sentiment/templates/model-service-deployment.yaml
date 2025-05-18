@@ -1,0 +1,36 @@
+{{/* operations/restaurant-sentiment/templates/model-service-deployment.yaml */}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "restaurant-sentiment.modelService.fullname" . }}
+  labels:
+    {{- include "restaurant-sentiment.labels" . | nindent 4 }}
+    app.kubernetes.io/component: {{ default "model-service" }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "restaurant-sentiment.selectorLabels" (dict "root" . "component" (default "model-service")) | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "restaurant-sentiment.selectorLabels" (dict "root" . "component" (default "model-service")) | nindent 8 }}
+    spec:
+      containers:
+        - name: model-service
+          image: "{{ .Values.modelService.image.repository }}:{{ .Values.modelService.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.modelService.containerPort }}
+              protocol: TCP
+          env:
+            - name: MODEL_URL
+              value: {{ .Values.modelService.env.MODEL_URL | quote }}
+            # Model service listening port configurable via ENV
+            - name: PORT
+              value: {{ .Values.modelService.env.PORT | quote }}
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
