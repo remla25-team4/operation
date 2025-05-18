@@ -1,12 +1,9 @@
-{{/* operations/restaurant-sentiment/templates/_helpers.tpl */}}
-{{/*
-*/}}
 {{- define "restaurant-sentiment.name" -}}
 {{- default .Chart.Name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
-Create a default fully qualified app name
+Create a default app name
 */}}
 {{- define "restaurant-sentiment.fullname" -}}
 {{- $name := default .Chart.Name}}
@@ -46,7 +43,7 @@ app.kubernetes.io/instance: {{ .root.Release.Name }}
 
 {{/*
 Full name for a specific component (app, model-service)
-Usage: {{ include "restaurant-sentiment.componentFullname" (dict "root" . "component" "app" "nameOverride" .Values.app.nameOverride) }}
+Usage: {{ include "restaurant-sentiment.componentFullname" (dict "root" . "component" "app") }}
 */}}
 {{- define "restaurant-sentiment.componentFullname" -}}
 {{- $componentDefaultName := .component -}}
@@ -65,13 +62,12 @@ Usage: {{ include "restaurant-sentiment.componentName" (dict "root" . "component
 App service name
 */}}
 {{- define "restaurant-sentiment.app.fullname" -}}
-{{- include "restaurant-sentiment.componentFullname" (dict "root" . "component" "app" "nameOverride" .Values.app.nameOverride) -}}
+{{- include "restaurant-sentiment.componentFullname" (dict "root" . "component" "app") -}}
 {{- end -}}
 
 {{/*
 Model-service service name
-For A3 Helm Installation (Good): This makes the base name of the model service (before release prefix) configurable.
-The actual DNS name within the cluster for the service will be like: {{ .Release.Name }}-restaurant-sentiment-{{ .Values.modelService.service.namePart }}
+nameOverride allows the base name of the model service to be configurable.
 */}}
 {{- define "restaurant-sentiment.modelService.fullname" -}}
 {{- include "restaurant-sentiment.componentFullname" (dict "root" . "component" (default "model-service" .Values.modelService.nameOverride) "nameOverride" .Values.modelService.nameOverride) -}}

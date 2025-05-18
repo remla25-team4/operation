@@ -1,6 +1,6 @@
 replicaCount: 1
 
-imagePullPolicy: IfNotPresent
+imagePullPolicy: Always
 
 app:
   name: app
@@ -13,13 +13,14 @@ app:
     port: 3001 # exposed port for ingress
   configData: # Data for ConfigMap
     GREETING_MESSAGE: "Welcome to the Restaurant Sentiment Analyzer (Helm Edition)!"
-  env:
-    MODEL_SERVICE_URL: "http://model-service:8080"
+#  env:
+#    MODEL_SERVICE_URL: "http://restaurant-sentiment-model-service:8080".
   secretData:
     DUMMY_API_KEY: "ultra-secret-placeholder-key"
 
 modelService:
   name: model-service
+  nameOverride: "model-svc"
   image:
     repository: ghcr.io/remla25-team4/model-service
     tag: "latest"

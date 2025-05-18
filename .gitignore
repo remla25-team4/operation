@@ -3,3 +3,6 @@
 kubeconfig
 .kube/
 /etc/kubernetes/admin.conf
+
+.idea
+get_helm.sh

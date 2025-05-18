@@ -27,7 +27,7 @@ spec:
               protocol: TCP
           env:
             - name: MODEL_SERVICE_URL
-              value: "{{ .Values.app.env.MODEL_SERVICE_URL }}"
+              value: "http://{{ include "restaurant-sentiment.modelService.fullname" . }}:{{ .Values.modelService.service.port }}"
             - name: GREETING_FROM_CM # FROM CONFIGMAP
               valueFrom:
                 configMapKeyRef:
