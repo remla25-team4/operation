@@ -1,4 +1,4 @@
-~~# Restaurant Sentiment Analysis - Group 4
+# Restaurant Sentiment Analysis - Group 4
 
 The operations repository is used to run the complete Restaurant Sentiment Analysis application of Group 4. It includes the configuration to deploy the necessary services using Docker Compose.
 
