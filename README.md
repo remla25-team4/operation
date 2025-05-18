@@ -134,6 +134,7 @@ Key values you might want to customize:
     helm install restaurant-sentiment . --namespace default
     ```
     Wait for a minute or two for the containers to fully deploy within the cluster to proceed with accessing the application.
+    You can also run `kubectl get pods -n default -l app.kubernetes.io/instance=restaurant-sentiment -w` to see the deployment status
 ### Accessing the Application
 
 1.  **Get the External IP of your Ingress Controller:**
