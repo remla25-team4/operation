@@ -113,11 +113,12 @@ Key values you might want to customize:
     ```
 
 2. **Install the Helm chart:**
-    Choose a release name (e.g., `my-app`) and a namespace (e.g., `default`).
+    Choose a release name (e.g., `restaurant-sentiment`) and a namespace (e.g., `default`).
     If you are inside the `operations/restaurant-sentiment` directory:
     ```bash
-    helm install my-app . --namespace default
+    helm install restaurant-sentiment . --namespace default
     ```
+    Wait for a minute or two for the containers to fully deploy within the cluster to proceed with accessing the application.
 ### Accessing the Application
 
 1.  **Get the External IP of your Ingress Controller:**
