@@ -7,10 +7,10 @@ services:
     ports:
       - "8080:8080"
     restart: always
+    volumes:
+      - ./model-cache:/app/model
     env_file:
       - .env
-    secrets:
-      - model-secret
 
   #This contains the frontend and backend of the app   
   app:
