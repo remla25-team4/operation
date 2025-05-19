@@ -3,7 +3,7 @@ version: "3.9" #latest one I believe
 services:
   #First service hosts the ML model through REST
   model-service:
-    image: ghcr.io/remla25-team4/model-service:1.0.10
+    image: ghcr.io/remla25-team4/model-service:latest
     ports:
       - "8080:8080"
     restart: always
@@ -12,7 +12,7 @@ services:
 
   #This contains teh frontend and backend of the app   
   app:
-    image: ghcr.io/remla25-team4/app:0.0.5
+    image: ghcr.io/remla25-team4/app:latest
     ports:
       - "3001:3001"
     restart: always
