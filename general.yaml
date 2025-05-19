@@ -7,6 +7,7 @@
       state: present
       key: '{{ item }}'
     with_file:
+      - public-keys/ahmed
       - public-keys/alexgliga
       - public-keys/alexpostu
       - public-keys/yulin
