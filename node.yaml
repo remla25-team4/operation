@@ -1,10 +1,43 @@
 - hosts: all
   become: true
+
   tasks:
-    - name: Get kubeadm join command from our controller
-      shell: kubeadm token create --print-join-command
-      delegate_to: ctrl
-      register: join_command
+    - name: Get kubeadm join command from controller
+      ansible.builtin.command: kubeadm token create --print-join-command
+      delegate_to: "{{ groups['ctrl'][0] | default('ctrl') }}"
       run_once: true
+      register: join_command
+      changed_when: false
+
+    - name: Display the retrieved join command (for debugging)
+      ansible.builtin.debug:
+        var: join_command.stdout_lines
+      when: join_command.stdout is defined
+
+    - name: Remove previous entry of a worker node from cluster datastore
+      ansible.builtin.command: "kubectl delete node {{ inventory_hostname }} --ignore-not-found=true"
+      delegate_to: "{{ groups['ctrl'][0] | default('ctrl') }}"
+      environment:
+        KUBECONFIG: /home/vagrant/.kube/config
+      register: delete_node_status
+      changed_when: "'deleted' in delete_node_status.stdout"
+
+    - name: Clean up old configuration files for previous node (if it exists)
+      ansible.builtin.command: kubeadm reset -f
+      when: join_command.stdout is defined and join_command.stdout | length > 0
+      register: kubeadm_reset_status
+      changed_when: "'kubeadm reset' in kubeadm_reset_status.stdout or 'Removed' in kubeadm_reset_status.stdout or 'unmounted' in kubeadm_reset_status.stdout"
+      failed_when: kubeadm_reset_status.rc != 0 and "Couldn't reset Kubernetes cluster" not in kubeadm_reset_status.stderr and "nothing to reset" not in kubeadm_reset_status.stderr
+
     - name: Join the node to the cluster
       ansible.builtin.shell: "{{ join_command.stdout }}"
+      args:
+        executable: /bin/bash
+      when: join_command.stdout is defined and join_command.stdout | length > 0
+      register: kubeadm_join_status
+      changed_when: "'This node has joined the cluster' in kubeadm_join_status.stdout"
+
+    - name: Display join status (for debugging)
+      ansible.builtin.debug:
+        var: kubeadm_join_status
+        verbosity: 1
