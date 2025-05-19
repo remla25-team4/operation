@@ -45,8 +45,3 @@
       when: join_command.stdout is defined and join_command.stdout | length > 0
       register: kubeadm_join_status
       changed_when: "'This node has joined the cluster' in kubeadm_join_status.stdout"
-
-    - name: Display join status (for debugging)
-      ansible.builtin.debug:
-        var: kubeadm_join_status
-        verbosity: 1

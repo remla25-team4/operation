@@ -1,7 +1,16 @@
 ---
 - hosts: 192.168.56.100
   become: no
-  gather_facts: no
+  gather_facts: yes
+
+  vars:
+    istio_version: "1.26.0"
+    istio_arch_map:
+      x86_64: "amd64"
+      aarch64: "arm64"
+      arm64: "arm64"
+    # Determine the Istio architecture string based on the gathered fact
+    istio_target_arch: "{{ istio_arch_map[ansible_architecture] | default('amd64') }}"
 
   tasks:
     # step 20 Install MetalLB
@@ -162,34 +171,38 @@
                           port:
                             number: 443
 
+    - name: "Debug: Detected system architecture and chosen Istio architecture"
+      ansible.builtin.debug:
+        msg: "System architecture (ansible_architecture): {{ ansible_architecture }}, Istio download architecture: {{ istio_target_arch }}"
+
     # step 23 get istio
-    - name: Download and Unarchive Istio 1.25.2
+    - name: "Download and Unarchive Istio {{ istio_version }} for {{ istio_target_arch }} architecture"
       ansible.builtin.unarchive:
-        src: "https://github.com/istio/istio/releases/download/1.25.2/istio-1.25.2-linux-arm64.tar.gz"
+        src: "https://github.com/istio/istio/releases/download/{{ istio_version }}/istio-{{ istio_version }}-linux-{{ istio_target_arch }}.tar.gz"
         dest: "/home/vagrant/"
         owner: vagrant
         group: vagrant
         remote_src: yes
-        # Idempotent - don't re-download/extract if istioctl binary is already there
-        creates: "/home/vagrant/istio-1.25.2/bin/istioctl"
+        # Idempotency: check if the istioctl binary already exists
+        creates: "/home/vagrant/istio-{{ istio_version }}/bin/istioctl"
 
-    - name: Add Istio 1.25.2 istioctl to vagrant user's PATH in .profile
+    - name: "Add Istio {{ istio_version }} istioctl to vagrant user's PATH in .profile"
       ansible.builtin.lineinfile:
         path: /home/vagrant/.profile
-        line: 'export PATH="$HOME/istio-1.25.2/bin:$PATH"'
+        line: 'export PATH="$HOME/istio-{{ istio_version }}/bin:$PATH"'
         create: yes
         owner: vagrant
         group: vagrant
         mode: '0644'
-        regexp: '^export PATH="\$HOME/istio-1.25.2/bin:'
+        regexp: '^export PATH="\$HOME/istio-{{ istio_version }}/bin:'
 
-    - name: Install Istio 1.25.2 using istioctl
+    - name: "Install Istio {{ istio_version }} using istioctl"
       ansible.builtin.command:
-        cmd: "/home/vagrant/istio-1.25.2/bin/istioctl install -y" # auto confirm installation prompts for user
+        cmd: "/home/vagrant/istio-{{ istio_version }}/bin/istioctl install -y"
       become: yes
       become_user: vagrant
       environment:
         KUBECONFIG: "/home/vagrant/.kube/config"
       args:
-        chdir: "/home/vagrant/istio-1.25.2"
+        chdir: "/home/vagrant/istio-{{ istio_version }}/"
 
