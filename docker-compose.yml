@@ -9,6 +9,8 @@ services:
     restart: always
     env_file:
       - .env
+    secrets:
+      - model-secret
 
   #This contains the frontend and backend of the app   
   app:
@@ -20,4 +22,9 @@ services:
       - .env
     depends_on:
       - model-service
+
+  secrets:
+    model-secret:
+      file: ./secrets/model-api-key.txt
+
     
