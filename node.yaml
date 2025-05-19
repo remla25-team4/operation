@@ -2,6 +2,15 @@
   become: true
 
   tasks:
+    - name: Wait for Kubernetes API server on controller to be ready
+      ansible.builtin.wait_for:
+        host: "192.168.56.100"
+        port: 6443
+        state: started
+        delay: 10
+        timeout: 300
+        msg: "Kubernetes API server on controller (192.168.56.100:6443) is not responding after 300 seconds."
+
     - name: Get kubeadm join command from controller
       ansible.builtin.command: kubeadm token create --print-join-command
       delegate_to: "{{ groups['ctrl'][0] | default('ctrl') }}"
