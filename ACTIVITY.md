@@ -41,3 +41,12 @@
 - Maria Clara Espírito Santo
   - Created PR: [Operation](https://github.com/remla25-team4/operation/pull/7) (related to A2)
   - Approved PR: [Operation](https://github.com/remla25-team4/operation/pull/8) (related to A2)
+ 
+
+# Week 3
+- Ahmed Driouech:
+    - Created PR: [Enhance app](https://github.com/remla25-team4/app/pull/4) (related to A1)
+    - Created PR: [Enhance app](https://github.com/remla25-team4/app/pull/6) (related to A1)
+    - Created PR: [Enhance app](https://github.com/remla25-team4/app/pull/8) (related to A1)
+    - Approved PR: [Enhance app](https://github.com/remla25-team4/app/pull/5)
+    - Approved PR: [Enhance app](https://github.com/remla25-team4/app/pull/7) 
