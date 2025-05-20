@@ -11,13 +11,16 @@
       - public-keys/alexgliga
       - public-keys/alexpostu
       - public-keys/yulin
+
   - name: Disable swap
     ansible.builtin.shell: swapoff -a
+
   - name: Prevent re-mounting
     ansible.builtin.lineinfile:
       path: /etc/fstab
       state: absent
       regexp: 'swap'
+
   - name: Distribute static /etc/hosts with cluster mappings
     ansible.builtin.copy:
       src: files/hosts

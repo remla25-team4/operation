@@ -87,8 +87,25 @@ ansible-playbook -u vagrant -i 192.168.56.100, finalization.yml
 sudo nano /etc/hosts
 ```
 Once open, paste this line at the end
-`192.168.56.91   dashboard.local`
- then save and exit
+
+`192.168.56.90   dashboard.local`
+
+ then save and exit.
+
+5. Load kubeconfig to all your terminal sessions
+
+Depending on what terminal you are using:
+`nano ~/.bashrc` if you are using bash or `nano ~/.zshrc` if you are using zsh.
+
+Then copy the full path of the file named `kubeconfig` in this repository that should be generated after running step 3:
+`export KUBECONFIG=path/to/your/operation/kubeconfig`
+
+Save and exit then:
+```bash
+source ~/.bashrc
+```
+to make the changes permanent.
+
 
 5. Obtain access token
 ```bash
