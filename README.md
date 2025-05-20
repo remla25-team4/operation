@@ -87,7 +87,9 @@ ansible-playbook -u vagrant -i 192.168.56.100, finalization.yml
 sudo nano /etc/hosts
 ```
 Once open, paste this line at the end
-`192.168.56.91   dashboard.local`
+
+`192.168.56.90   dashboard.local`
+
  then save and exit
 
 5. Obtain access token
