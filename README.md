@@ -95,9 +95,21 @@ Once open, paste this line at the end
 5. Load kubeconfig to all your terminal sessions
 
 Depending on what terminal you are using:
-`nano ~/.bashrc` if you are using bash or `nano ~/.zshrc` if you are using zsh.
+```bash
+nano ~/.bashrc
+```
 
-Then copy the full path of the file named `kubeconfig` in this repository that should be generated after running step 3:
+if you are using bash or 
+
+```bash
+nano ~/.zshrc
+```
+
+if you are using zsh.
+
+Copy the full path of the file named `kubeconfig` in this repository that should be generated after running step 3.
+
+Then paste this line at the end of your `.bashrc`/`.zshrc`:
 `export KUBECONFIG=path/to/your/operation/kubeconfig`
 
 Save and exit then:
