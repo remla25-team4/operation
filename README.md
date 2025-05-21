@@ -123,7 +123,9 @@ to make the changes permanent.
 ```bash
 kubectl -n kubernetes-dashboard create token admin-user
 ```
-Use the token displayed on screen to access the kubernetes dashboard at dashboard.local.
+Use the token displayed on screen to access the kubernetes dashboard at dashboard.local. 
+
+**Note:** make sure to visit the site using https.
 
 ## How to run our application for Assignment 3
 ### Prerequisites
