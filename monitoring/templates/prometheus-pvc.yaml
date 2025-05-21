@@ -1,0 +1,14 @@
+{{- if .Values.prometheus.server.persistentVolume.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: prometheus-storage
+  labels:
+    {{- include "monitoring.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.prometheus.server.persistentVolume.size }}
+{{- end }} 
