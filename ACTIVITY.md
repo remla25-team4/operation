@@ -1,4 +1,4 @@
-# Week 1
+# Week 2
 - Ahmed Driouech:
   - Created PR: [App PR](https://github.com/remla25-team4/app/pull/1) (related to A1)
   - Approved PR: [Operation PR](https://github.com/remla25-team4/operation/pull/1) (related to A1)
@@ -22,7 +22,7 @@
   - Approved PR: [Lib-ml](https://github.com/remla25-team4/lib-ml/pull/1) (related to A1)
   - Approved PR: [Lib-service](https://github.com/remla25-team4/lib-version/pull/1) (related to A1)
  
-# Week 2
+# Week 3
 - Ahmed Driouech:
     - Created PR: [steps 13 to 17](https://github.com/remla25-team4/operation/pull/4) (related to A2)
     - Created PR: [Testing + bug fixes](https://github.com/remla25-team4/operation/pull/6) (related to A2)
@@ -43,7 +43,7 @@
   - Approved PR: [Operation](https://github.com/remla25-team4/operation/pull/8) (related to A2)
  
 
-# Week 3
+# Week 4
 - Ahmed Driouech:
     - Created PR: [Enhance app](https://github.com/remla25-team4/app/pull/4) (related to A1)
     - Created PR: [Enhance app](https://github.com/remla25-team4/app/pull/6) (related to A1)
