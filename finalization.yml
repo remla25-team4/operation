@@ -4,7 +4,7 @@
   gather_facts: yes
 
   vars:
-    istio_version: "1.26.0"
+    istio_version: "1.25.0"
     istio_arch_map:
       x86_64: "amd64"
       aarch64: "arm64"
