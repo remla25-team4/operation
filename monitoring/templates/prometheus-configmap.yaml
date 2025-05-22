@@ -8,7 +8,6 @@ data:
     global:
       scrape_interval: 15s
       evaluation_interval: 15s
-      timezone: "Europe/Paris"  # Set to your local timezone
 
     scrape_configs:
       - job_name: 'prometheus'
