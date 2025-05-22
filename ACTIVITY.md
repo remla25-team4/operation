@@ -64,3 +64,14 @@
     - Created PR: [Setup Helm chart for 1.1](https://github.com/remla25-team4/operation/pull/9)
     - Approved PR: [Fix-istio-installation](https://github.com/remla25-team4/operation/pull/16)
     - Approved PR: [Complete migration from docker compose to kubernetes](https://github.com/remla25-team4/operation/pull/11) (Related to A3)
+ 
+#Week 5
+- Ahmed Driouech:
+  - Created PR: [Add metrics to app-service](https://github.com/remla25-team4/app/pull/9) (related to A3)
+  - Created PR: [Fixing Bugs](https://github.com/remla25-team4/app/pull/10) (related to A3)
+  - Created PR: [Fixing Bugs](https://github.com/remla25-team4/app/pull/11) (related to A3)
+  - Created PR: [Implement new approach for tracking metrics](https://github.com/remla25-team4/app/pull/12) (related to A3)
+  - Approved PR: [Configuring Prometheus monitoring](https://github.com/remla25-team4/operation/pull/17) (related to A3)
+  - Approved PR: [Fixing Bugs](https://github.com/remla25-team4/app/pull/10) (related to A3)
+  - Approved PR: [Fixing Bugs](https://github.com/remla25-team4/app/pull/11) (related to A3)
+  - Approved PR: [Implement new approach for tracking metrics](https://github.com/remla25-team4/app/pull/12) (related to A3)
