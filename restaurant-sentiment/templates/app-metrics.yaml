@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-metrics-config
+  labels:
+    {{- include "restaurant-sentiment.labels" . | nindent 4 }}
+data:
+  metrics.js: |
+    const prometheus = require('prom-client');
+    const register = new prometheus.Registry();
+
+    // Create custom metrics
+    const sentimentRequestsTotal = new prometheus.Counter({
+      name: 'sentiment_analysis_requests_total',
+      help: 'Total number of sentiment analysis requests',
+      labelNames: ['status']
+    });
+
+    const sentimentAnalysisDuration = new prometheus.Histogram({
+      name: 'sentiment_analysis_duration_seconds',
+      help: 'Time taken for sentiment analysis',
+      buckets: [0.1, 0.5, 1, 2, 5]
+    });
+
+    const sentimentScores = new prometheus.Histogram({
+      name: 'sentiment_analysis_scores',
+      help: 'Distribution of sentiment scores',
+      buckets: [-1, -0.5, 0, 0.5, 1]
+    });
+
+    // Register metrics
+    register.registerMetric(sentimentRequestsTotal);
+    register.registerMetric(sentimentAnalysisDuration);
+    register.registerMetric(sentimentScores);
+
+    module.exports = {
+      register,
+      sentimentRequestsTotal,
+      sentimentAnalysisDuration,
+      sentimentScores
+    }; 

@@ -178,15 +178,35 @@ Key values you might want to customize:
     On your local machine (the one from which you want to access the application), edit your `/etc/hosts` file (e.g., `sudo nano /etc/hosts` on Linux/macOS, or an equivalent for Windows located at `C:\Windows\System32\drivers\etc\hosts`). Add an entry mapping the `ingress.host` (from `values.yaml`, e.g., `restaurant.local`) to the external IP obtained in the previous step.
     Example:
     ```
-    192.168.56.90  restaurant.local
+    192.168.56.90  dashboard.local restaurant.local
     ```
 
 3.  **Open in Browser:**
     Open your web browser and navigate to the configured host (e.g., `http://restaurant.local`).
 
+### Prometheus Monitoring
+1. **Navigate to the Helm chart directory (optional, can also install from root):**
+    ```bash
+    cd monitoring
+    ```
+2. **Install the Helm chart:**
+    Choose a release name (e.g., `monitoring`) and a namespace (e.g., `default`).
+    If you are inside the `operations/monitoring` directory:
+    ```bash
+    helm install monitoring . --namespace default -f values.yaml --replace
+    ```
+    Wait for a minute or two for the containers to fully deploy within the cluster to proceed with accessing the application.
+    You can also run `kubectl get pods -n default -l app.kubernetes.io/instance=monitoring -w` to see the deployment status
 
-
-
+### Accessing the prometheus dashboard
+1. **Update Your Local `/etc/hosts` File:**
+    On your local machine (the one from which you want to access the application), edit your `/etc/hosts` file (e.g., `sudo nano /etc/hosts` on Linux/macOS, or an equivalent for Windows located at `C:\Windows\System32\drivers\etc\hosts`). Add an entry mapping the `ingress.host` (from `values.yaml`, e.g., `prometheus.local`) to the external IP obtained in the previous step from the app installation.
+    Example:
+    ```
+    192.168.56.90  dashboard.local restaurant.local prometheus.local
+    ```
+2.  **Open in Browser:**
+    Open your web browser and navigate to the configured host (e.g., `http://prometheus.local`).
 ## Related Repositories 
 
 | Repo                                                              | Purpose                               |
