@@ -80,5 +80,5 @@
   - Approved PR: [Implement new approach for tracking metrics](https://github.com/remla25-team4/app/pull/12) (related to A3)
 - Alexandru Gliga:
   - Created PR: [Prometheus integration](https://github.com/remla25-team4/operation/pull/17)(related to A3)
-  - Approved PR: [Add metrics to app-service](https://github.com/remla25-team4/app/pull/9)
+  - Approved PR: [Add metrics to app-service](https://github.com/remla25-team4/app/pull/9)(related to A3)
   
