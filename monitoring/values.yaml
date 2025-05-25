@@ -148,3 +148,13 @@ serviceMonitor:
   namespace: default
   labels:
     release: prometheus
+    
+
+grafana:
+  ingress:
+    host: grafana.local
+    servicePort: 80
+
+monitoring:
+  enabled: true
+  scrapeInterval: 15s    
