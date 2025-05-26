@@ -92,6 +92,7 @@
   - Approved PR: [Add script and instruction to download nltk corpora locally](https://github.com/remla25-team4/model-training/pull/9) (related to A4)
 - Yulin Chen
   - Approved PR: [ML configuration ass4](https://github.com/remla25-team4/model-training/pull/8) (related to A4)
+  - Approved PR: [Implemented model development testing](https://github.com/remla25-team4/model-training/pull/7) (related to A4)
   - Created PR: [Fix: Add script and instruction to download nltk corpora locally](https://github.com/remla25-team4/model-training/pull/9) (related to A4)
   - Created PR: [Re-added missing models and added gdrive config path to dvc config](https://github.com/remla25-team4/model-training/pull/19) (related to A4)
     
