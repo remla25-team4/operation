@@ -28,7 +28,7 @@ modelService:
   env:
     repository: ghcr.io/remla25-team4/model-service
     tag: "latest"
-    MODEL_URL: "https://github.com/remla25-team4/model-training/models/naive_bayes.joblib"
+    MODEL_URL: "https://github.com/remla25-team4/model-training/raw/main/models/naive_bayes.joblib"
     PORT: "8080" # configurable model service port
   livenessProbe:
     path: /healthz
