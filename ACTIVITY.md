@@ -68,7 +68,7 @@
     - Created PR: [Switched to from fastapi to flask](https://github.com/remla25-team4/model-service/pull/6) (Related to A2)
     - Approved PR: [Update docker compose](https://github.com/remla25-team4/operation/pull/15) (Related to A3)
  
-#Week 5
+# Week 5
 - Ahmed Driouech:
   - Created PR: [Add metrics to app-service](https://github.com/remla25-team4/app/pull/9) (related to A3)
   - Created PR: [Fixing Bugs](https://github.com/remla25-team4/app/pull/10) (related to A3)
@@ -87,7 +87,12 @@
   - Created PR: [Update docker compose](https://github.com/remla25-team4/operation/pull/15) (related to A1)
   - Created (draft) PR: [Set up Grafana](https://github.com/remla25-team4/operation/pull/19) (related to A3)
   - Approved PR: [Delete and reset outdated resources of worker node](https://github.com/remla25-team4/operation/pull/13) (related to A3)
- #Week 6
+    
+ # Week 6
 - Alexandru Postu
   - Approved PR: [Switch to Flask API](https://github.com/remla25-team4/model-service/pull/6) (related to A1/general)
+- Yulin Chen
+  - Approved PR: [ML configuration ass4](https://github.com/remla25-team4/model-training/pull/8) (related to A4)
+  - Created PR: [Fix: Add script and instruction to download nltk corpora locally](https://github.com/remla25-team4/model-training/pull/9) (related to A4)
+  - Created PR: [Re-added missing models and added gdrive config path to dvc config](https://github.com/remla25-team4/model-training/pull/19) (related to A4)
   
