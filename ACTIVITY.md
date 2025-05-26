@@ -88,5 +88,6 @@
   - Created (draft) PR: [Set up Grafana](https://github.com/remla25-team4/operation/pull/19) (related to A3)
   - Approved PR: [Delete and reset outdated resources of worker node](https://github.com/remla25-team4/operation/pull/13) (related to A3)
  #Week 6
-  - Approved PR: [Switch to Flask API](https://github.com/remla25-team4/model-service/pull/6) (related to A1)
+- Alexandru Postu
+  - Approved PR: [Switch to Flask API](https://github.com/remla25-team4/model-service/pull/6) (related to A1/general)
   
