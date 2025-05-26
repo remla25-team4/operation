@@ -87,6 +87,9 @@
   - Created PR: [Update docker compose](https://github.com/remla25-team4/operation/pull/15) (related to A1)
   - Created (draft) PR: [Set up Grafana](https://github.com/remla25-team4/operation/pull/19) (related to A3)
   - Approved PR: [Delete and reset outdated resources of worker node](https://github.com/remla25-team4/operation/pull/13) (related to A3)
+- Maria Clara Espírito Santo
+  - Created PR: [ML configuration and setup of Google Cloud Project w/ DVC](https://github.com/remla25-team4/model-training/pull/8) (related to A4)
+  - Approved PR: [Add script and instruction to download nltk corpora locally](https://github.com/remla25-team4/model-training/pull/9) (related to A4)
 - Yulin Chen
   - Approved PR: [ML configuration ass4](https://github.com/remla25-team4/model-training/pull/8) (related to A4)
   - Created PR: [Fix: Add script and instruction to download nltk corpora locally](https://github.com/remla25-team4/model-training/pull/9) (related to A4)
@@ -95,4 +98,6 @@
  # Week 6
 - Alexandru Postu
   - Approved PR: [Switch to Flask API](https://github.com/remla25-team4/model-service/pull/6) (related to A1/general)
+- Maria Clara Espírito Santo
+  - Approved PR: [Added service account so everyone can use dvc through it](https://github.com/remla25-team4/model-training/pull/18) (related to A4)
   
