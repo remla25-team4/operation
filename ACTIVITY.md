@@ -82,4 +82,9 @@
   - Created PR: [Prometheus integration](https://github.com/remla25-team4/operation/pull/17)(related to A3)
   - Created PR: [Model Development Testing](https://github.com/remla25-team4/model-training/pull/7)(related to A4)
   - Approved PR: [Add metrics to app-service](https://github.com/remla25-team4/app/pull/9)(related to A3)
+- Alexandru Postu:
+  - Created PR: [Feature data testing](https://github.com/remla25-team4/model-training/pull/5) (related to A4)
+  - Created PR: [Update docker compose](https://github.com/remla25-team4/operation/pull/15) (related to A1)
+  - Created (draft) PR: [Set up Grafana](https://github.com/remla25-team4/operation/pull/19) (related to A3)
+  - Approved PR: [Switch to Flask API](https://github.com/remla25-team4/model-service/pull/6) (related to A1)
   
