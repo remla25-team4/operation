@@ -97,6 +97,9 @@
   - Created PR: [Re-added missing models and added gdrive config path to dvc config](https://github.com/remla25-team4/model-training/pull/19) (related to A4)
     
  # Week 6
+- Ahmed Driouech:
+  - Created PR: [Added service account so everyone can use dvc through it](https://github.com/remla25-team4/model-training/pull/18) (related to A4)
+  - Created PR: [Add pylint](https://github.com/remla25-team4/model-training/pull/20) (related to A4)
 - Alexandru Postu
   - Approved PR: [Switch to Flask API](https://github.com/remla25-team4/model-service/pull/6) (related to A1/general)
 - Maria Clara Espírito Santo
