@@ -86,5 +86,7 @@
   - Created PR: [Feature data testing](https://github.com/remla25-team4/model-training/pull/5) (related to A4)
   - Created PR: [Update docker compose](https://github.com/remla25-team4/operation/pull/15) (related to A1)
   - Created (draft) PR: [Set up Grafana](https://github.com/remla25-team4/operation/pull/19) (related to A3)
+  - Approved PR: [Delete and reset outdated resources of worker node](https://github.com/remla25-team4/operation/pull/13) (related to A3)
+ #Week 6
   - Approved PR: [Switch to Flask API](https://github.com/remla25-team4/model-service/pull/6) (related to A1)
   
