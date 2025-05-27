@@ -100,6 +100,7 @@
 - Ahmed Driouech:
   - Created PR: [Added service account so everyone can use dvc through it](https://github.com/remla25-team4/model-training/pull/18) (related to A4)
   - Created PR: [Add pylint](https://github.com/remla25-team4/model-training/pull/20) (related to A4)
+  - Approved PR: [Implement monitoring tests](https://github.com/remla25-team4/model-training/pull/21) (related to A4)
 - Alexandru Postu
   - Approved PR: [Switch to Flask API](https://github.com/remla25-team4/model-service/pull/6) (related to A1/general)
 - Maria Clara Espírito Santo
