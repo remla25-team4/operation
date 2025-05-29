@@ -152,12 +152,13 @@ serviceMonitor:
 grafana:
   enabled: true
 
-  existingSecret: grafana-admin-secret
-
   image:
     repository: grafana/grafana
     tag: latest
     pullPolicy: IfNotPresent
+  
+  adminUser: admin
+  adminPassword: admin
 
   service:
     type: ClusterIP

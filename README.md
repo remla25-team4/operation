@@ -207,16 +207,8 @@ Key values you might want to customize:
     ```
 2.  **Open in Browser:**
     Open your web browser and navigate to the configured host (e.g., `http://prometheus.local` or `http://grafana.local`).
-3. **Create Grafana secret user and password**
-    Run this into your terminal:
-    ```
-    kubectl create secret generic grafana-admin-secret \
-    --from-literal=grafana-admin-username=<user-name-here> \
-    --from-literal=grafana-admin-password=<password< \
-    -n default
-    ```
-4. **Logging into Grafana:**
-    To log into Grafana, you should be able to use the secret credentials that you declared before. For instance, for the command above you may use `username: <user-name-here>` and `password: <password-here>`.
+3. **Logging into Grafana:**
+    To log into Grafana, use `admin` for the username and `admin` for the password.
 
 
 ## Related Repositories 
