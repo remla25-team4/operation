@@ -12,6 +12,7 @@
       - public-keys/alexpostu
       - public-keys/yulin
       - public-keys/clara
+      - public-keys/yulin-ubuntu
   - name: Disable swap
     ansible.builtin.shell: swapoff -a
 
