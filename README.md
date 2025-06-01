@@ -210,6 +210,8 @@ Key values you might want to customize:
 3. **Logging into Grafana:**
     To log into Grafana, use `admin` for the username and `admin` for the password.
 
+4. **Import Grafana dashboard:** You may import our Grafana dashboard. To do so, import the `Restaurant sentiment dashboard.json` that may be found under the `monitoring/dashboards/`.
+
 
 ## Related Repositories 
 
