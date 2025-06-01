@@ -181,7 +181,7 @@ grafana:
         - name: Prometheus
           type: prometheus
           access: proxy
-          url: http://prometheus.default.svc.cluster.local
+          url: http://prometheus.default.svc.cluster.local:9090
           isDefault: true
 
   persistence:
