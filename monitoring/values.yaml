@@ -148,3 +148,49 @@ serviceMonitor:
   namespace: default
   labels:
     release: prometheus
+
+grafana:
+  enabled: true
+
+  image:
+    repository: grafana/grafana
+    tag: latest
+    pullPolicy: IfNotPresent
+  
+  adminUser: admin
+  adminPassword: admin
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  ingress:
+    enabled: true
+    className: "nginx"
+    annotations:
+      kubernetes.io/ingress.class: "nginx"
+    hosts:
+      - grafana.local
+    path: /
+    pathType: Prefix
+
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: Prometheus
+          type: prometheus
+          access: proxy
+          url: http://prometheus.default.svc.cluster.local:9090
+          isDefault: true
+
+  persistence:
+    enabled: false
+
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 250m
+      memory: 256Mi

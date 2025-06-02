@@ -198,14 +198,21 @@ Key values you might want to customize:
     Wait for a minute or two for the containers to fully deploy within the cluster to proceed with accessing the application.
     You can also run `kubectl get pods -n default -l app.kubernetes.io/instance=monitoring -w` to see the deployment status
 
-### Accessing the prometheus dashboard
+### Accessing the prometheus and grafana dashboards
 1. **Update Your Local `/etc/hosts` File:**
     On your local machine (the one from which you want to access the application), edit your `/etc/hosts` file (e.g., `sudo nano /etc/hosts` on Linux/macOS, or an equivalent for Windows located at `C:\Windows\System32\drivers\etc\hosts`). Add an entry mapping the `ingress.host` (from `values.yaml`, e.g., `prometheus.local`) to the external IP obtained in the previous step from the app installation.
     Example:
     ```
-    192.168.56.90  dashboard.local restaurant.local prometheus.local
+    192.168.56.90  dashboard.local restaurant.local prometheus.local grafana.local
     ```
 2.  **Open in Browser:**
+
+    Open your web browser and navigate to the configured host (e.g., `http://prometheus.local` or `http://grafana.local`).
+3. **Logging into Grafana:**
+    To log into Grafana, use `admin` for the username and `admin` for the password.
+
+4. **Import Grafana dashboard:** You may import our Grafana dashboard. To do so, import the `Restaurant sentiment dashboard.json` that may be found under the `monitoring/dashboards/`.
+
     Open your web browser and navigate to the configured host (e.g., `http://prometheus.local`).
 
 
