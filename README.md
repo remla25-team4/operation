@@ -193,7 +193,7 @@ Key values you might want to customize:
     Choose a release name (e.g., `monitoring`) and a namespace (e.g., `default`).
     If you are inside the `operations/monitoring` directory:
     ```bash
-    helm install monitoring . --namespace default -f values.yaml --replace
+    helm install monitoring . --namespace default -f values.yaml --replace # you might have to try twice
     ```
     Wait for a minute or two for the containers to fully deploy within the cluster to proceed with accessing the application.
     You can also run `kubectl get pods -n default -l app.kubernetes.io/instance=monitoring -w` to see the deployment status
@@ -233,16 +233,21 @@ This guide explains how to deploy the v1 and v2 (canary) versions of the applica
 
 This deploys the main version of `app` alongside a canary release and `model-service`, with Istio configurations (Gateway, DestinationRules, VirtualServices for 90/10 split and consistent routing).
 
-1.  Apply `app.yml`:
+1.  Change directory to '/istio':
+    ```bash
+    cd istio
+    ```
+
+2.  Apply `app.yml`:
     ```bash
     kubectl apply -f app.yml
     ```
 
-2.  Apply `app-canary.yml`:
+3.  Apply `app-canary.yml`:
     ```bash
     kubectl apply -f app-canary.yml
     ```
-3.  Wait for pods to be ready:
+4.  Wait for pods to be ready:
     ```bash
     kubectl get pods -n default -w
     ```
@@ -259,6 +264,13 @@ This deploys the main version of `app` alongside a canary release and `model-ser
 ### Step 3: Observe Canary Release
 
 Refresh your browser multiple times. You should see traffic split between `app-v1` (90%) and `app-v2` (10%), with `model-service` versions consistent with the `app` version.
+
+### step 4: Rate-limiting
+
+To enable rate-limiting run:
+```bash
+kubectl apply -f rate-limit.yml
+```
 
 ## Related Repositories 
 
