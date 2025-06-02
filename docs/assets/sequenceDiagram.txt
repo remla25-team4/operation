@@ -1,0 +1,18 @@
+```mermaid
+sequenceDiagram
+    autonumber
+    participant User
+    participant GW as Istio Gateway
+    participant A as app‑Pod (Envoy)
+    participant M as model‑Pod (Envoy)
+
+    User->>GW: ① HTTPS GET /
+    GW->>A: ② HTTP GET /  *90 % → stable / 10 % → canary*
+    A-->>User: ③ React bundle
+    User->>GW: ④ POST /api/reviews {text}
+    GW->>A: ⑤ Forward (same subset as ②)
+    A->>M: ⑥ POST /predict {text}
+    M-->>A: ⑦ { sentiment }
+    A-->>User: ⑧ JSON response (+ versions)
+    Note over A,M: Envoy captures latency / status codes
+```

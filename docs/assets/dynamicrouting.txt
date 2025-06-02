@@ -1,0 +1,39 @@
+---
+config:
+  theme: neutral
+---
+flowchart LR
+    IGW[Istio
+IngressGateway]
+    IGW -- "90 % (cookie v1)" --> AppSvcV1[[Service: app
+subset **v1**]]
+    IGW -- "10 % (cookie v2)" --> AppSvcV2[[Service: app
+subset **v2**]]
+    subgraph "App subsets"
+        direction TB
+        AppPodV1["app‑stable
+Pod (v1)"]
+        AppPodV2["app‑canary
+Pod (v2)"]
+        class AppPodV1 stable;
+        class AppPodV2 canary;
+    end
+    AppSvcV1 --> AppPodV1
+    AppSvcV2 --> AppPodV2
+    AppPodV1 -- "header x-version: v1" --> ModelSvcV1[[Service: model-service
+subset **v1**]]
+    AppPodV2 -- "header x-version: v2" --> ModelSvcV2[[Service: model-service
+subset **v2**]]
+    subgraph "Model subsets"
+        direction TB
+        ModelPodV1["model‑stable
+Pod (v1)"]
+        ModelPodV2["model‑canary
+Pod (v2)"]
+        class ModelPodV1 stable;
+        class ModelPodV2 canary;
+    end
+    ModelSvcV1 --> ModelPodV1
+    ModelSvcV2 --> ModelPodV2
+    classDef stable fill:#e5f5ff,stroke:#1e88e5,stroke-width:2px;
+    classDef canary fill:#fff3e0,stroke:#fb8c00,stroke-width:2px;
