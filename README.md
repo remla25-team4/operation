@@ -206,14 +206,70 @@ Key values you might want to customize:
     192.168.56.90  dashboard.local restaurant.local prometheus.local grafana.local
     ```
 2.  **Open in Browser:**
+
     Open your web browser and navigate to the configured host (e.g., `http://prometheus.local` or `http://grafana.local`).
 3. **Logging into Grafana:**
     To log into Grafana, use `admin` for the username and `admin` for the password.
 
 4. **Import Grafana dashboard:** You may import our Grafana dashboard. To do so, import the `Restaurant sentiment dashboard.json` that may be found under the `monitoring/dashboards/`.
 
+    Open your web browser and navigate to the configured host (e.g., `http://prometheus.local`).
+
+
+## How to run our application for Assignment 4
+
+Instructions for cloning model-training repo, running DVC, etc.
+Link to: https://github.com/remla25-team4/model-training
+
+
+## How to run our application for Assignment 5
+### Usage Instructions
+
+This guide explains how to deploy the v1 and v2 (canary) versions of the application using Istio for traffic management.
+
+### Prerequisites
+
+* Kubernetes cluster running (You have followed all previous steps).
+* Istio installed.
+* Deployment namespace (e.g., `default`) enabled for Istio sidecar injection:
+    ```bash
+    kubectl label namespace default istio-injection=enabled
+    ```
+
+### Step 1: Deploy App
+
+This deploys the main version of `app` alongside a canary release and `model-service`, with Istio configurations (Gateway, DestinationRules, VirtualServices for 90/10 split and consistent routing).
+
+1.  Apply `app.yml`:
+    ```bash
+    kubectl apply -f app.yml
+    ```
+
+2.  Apply `app-canary.yml`:
+    ```bash
+    kubectl apply -f app-canary.yml
+    ```
+3.  Wait for pods to be ready:
+    ```bash
+    kubectl get pods -n default -w
+    ```
+    The 90/10 traffic split defined in `app.yml` (and reaffirmed in `app-canary.yml`) will now route 10% of traffic to `app-v2`.
+
+### Step 2: Access the Application
+
+1.  Get the Istio Ingress Gateway address:
+    ```bash
+    kubectl get svc istio-ingressgateway -n istio-system
+    ```
+2.  Copy the `EXTERNAL-IP` and paste it in your browser.
+
+### Step 3: Observe Canary Release
+
+Refresh your browser multiple times. You should see traffic split between `app-v1` (90%) and `app-v2` (10%), with `model-service` versions consistent with the `app` version.
 
 ## Related Repositories 
+
+
 
 | Repo                                                              | Purpose                               |
 | ----------------------------------------------------------------- | ------------------------------------- |

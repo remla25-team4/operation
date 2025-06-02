@@ -68,7 +68,7 @@
     - Created PR: [Switched to from fastapi to flask](https://github.com/remla25-team4/model-service/pull/6) (Related to A2)
     - Approved PR: [Update docker compose](https://github.com/remla25-team4/operation/pull/15) (Related to A3)
  
-#Week 5
+# Week 5
 - Ahmed Driouech:
   - Created PR: [Add metrics to app-service](https://github.com/remla25-team4/app/pull/9) (related to A3)
   - Created PR: [Fixing Bugs](https://github.com/remla25-team4/app/pull/10) (related to A3)
@@ -80,5 +80,39 @@
   - Approved PR: [Implement new approach for tracking metrics](https://github.com/remla25-team4/app/pull/12) (related to A3)
 - Alexandru Gliga:
   - Created PR: [Prometheus integration](https://github.com/remla25-team4/operation/pull/17)(related to A3)
+  - Created PR: [Model Development Testing](https://github.com/remla25-team4/model-training/pull/7)(related to A4)
   - Approved PR: [Add metrics to app-service](https://github.com/remla25-team4/app/pull/9)(related to A3)
-  
+- Alexandru Postu:
+  - Created PR: [Feature data testing](https://github.com/remla25-team4/model-training/pull/5) (related to A4)
+  - Created PR: [Update docker compose](https://github.com/remla25-team4/operation/pull/15) (related to A1)
+  - Approved PR: [Delete and reset outdated resources of worker node](https://github.com/remla25-team4/operation/pull/13) (related to A3)
+- Maria Clara Espírito Santo
+  - Created PR: [ML configuration and setup of Google Cloud Project w/ DVC](https://github.com/remla25-team4/model-training/pull/8) (related to A4)
+  - Approved PR: [Add script and instruction to download nltk corpora locally](https://github.com/remla25-team4/model-training/pull/9) (related to A4)
+- Yulin Chen
+  - Approved PR: [ML configuration ass4](https://github.com/remla25-team4/model-training/pull/8) (related to A4)
+  - Approved PR: [Implemented model development testing](https://github.com/remla25-team4/model-training/pull/7) (related to A4)
+  - Created PR: [Fix: Add script and instruction to download nltk corpora locally](https://github.com/remla25-team4/model-training/pull/9) (related to A4)
+  - Created PR: [Re-added missing models and added gdrive config path to dvc config](https://github.com/remla25-team4/model-training/pull/19) (related to A4)
+    
+ # Week 6
+- Ahmed Driouech:
+  - Created PR: [Added service account so everyone can use dvc through it](https://github.com/remla25-team4/model-training/pull/18) (related to A4)
+  - Created PR: [Add pylint](https://github.com/remla25-team4/model-training/pull/20) (related to A4)
+  - Approved PR: [Implement monitoring tests](https://github.com/remla25-team4/model-training/pull/21) (related to A4)
+- Alexandru Postu
+  - Created PR: [Set up Grafana](https://github.com/remla25-team4/operation/pull/19) (related to A3)
+  - Approved PR: [Switch to Flask API](https://github.com/remla25-team4/model-service/pull/6) (related to A1/general)
+- Maria Clara Espírito Santo
+  - Approved PR: [Added service account so everyone can use dvc through it](https://github.com/remla25-team4/model-training/pull/18) (related to A4)
+  - Created PR: [ Added SSH public key and update Ansible general.yaml](https://github.com/remla25-team4/operation/pull/20) (related to A3)
+  - Created PR: [Added extension file for k3d or kind implemenetation due to inconsistent vagrant up](https://github.com/remla25-team4/operation/pull/28) (related to A5)
+  - Approved PR: [First draft for deployment.md file](https://github.com/remla25-team4/operation/pull/26) (related to A5)
+- Alexandru Gliga
+  - Created PR: [Created the first draft of documentation.md](https://github.com/remla25-team4/operation/pull/26) (related to A5)
+  - Approved PR: [Set up Grafana](https://github.com/remla25-team4/operation/pull/19) (related to A3)
+ 
+# Week 7
+- Ahmed Driouech:
+  - Created PR: []() (related to A5)
+  - Approved PR: [Istio traffic management](https://github.com/remla25-team4/operation/pull/27) (related to A5)

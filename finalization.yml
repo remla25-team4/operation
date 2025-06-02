@@ -4,7 +4,7 @@
   gather_facts: yes
 
   vars:
-    istio_version: "1.25.0"
+    istio_version: "1.26.0"
     istio_arch_map:
       x86_64: "amd64"
       aarch64: "arm64"
@@ -33,7 +33,7 @@
         src: "/tmp/metallb-native-v0.14.9.yaml"
 
     - name: Wait for MetalLB controller/webhook to be ready
-      ansible.builtin.command: >
+      ansible.builtin.command:
         kubectl wait -n metallb-system -l app=metallb,component=controller --for=condition=ready pod
         --timeout=60s
       changed_when: false

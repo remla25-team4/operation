@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: model-service
-          image: "{{ .Values.modelService.image.repository }}:{{ .Values.modelService.image.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.modelService.env.repository }}:{{ .Values.modelService.env.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.imagePullPolicy }}
           ports:
             - name: http
