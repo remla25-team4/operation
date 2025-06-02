@@ -50,8 +50,8 @@ Vagrant.configure("2") do |config|
 
     # Set memory to 4GB and CPU to 1
     ctrl_node.vm.provider "virtualbox" do |v|
-      v.memory = 4096
-      v.cpus = 2
+      v.memory = 16384
+      v.cpus = 4
     end
 
     # Open the control playbook.

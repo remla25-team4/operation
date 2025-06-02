@@ -3,24 +3,40 @@ kind: Pod
 metadata:
   name: app-v1
   labels: { app: app, version: v1 }
+  annotations:
+    prometheus.io/scrape: "true" # this is the magic instruction to enable metric pick-up
+    prometheus.io/path: "/metrics" # optional, needed for non-default paths
+    prometheus.io/port: "3001"
 spec:
   containers:
   - name: app
-    image: ghcr.io/remla25-team4/app:latest
-    ports: [ containerPort: 3001 ]
+    image: ghcr.io/remla25-team4/app:0.4.2
+    imagePullPolicy: Always
+    ports:
+    - containerPort: 3001
+    env:
+      - name: MODEL_SERVICE_URL
+        value: "http://model-service:8080"
 ---
 apiVersion: v1
 kind: Pod
 metadata:
-  name: svc-v1
-  labels: { app: svc, version: v1 }
+  name: model-service-v1
+  labels: { app: model-service, version: v1 }
+  annotations:
+    prometheus.io/scrape: "true" # this is the magic instruction to enable metric pick-up
+    prometheus.io/path: "/metrics" # optional, needed for non-default paths
+    prometheus.io/port: "8080"
 spec:
   containers:
-  - name: svc
-    image: ghcr.io/remla25-team4/model-service:latest
-    ports: [ containerPort: 8080 ]
+  - name: model-service-container
+    image: ghcr.io/remla25-team4/model-service:1.0.0
+    imagePullPolicy: Always
+    ports:
+    - containerPort: 8080
     env:
-    - { MODEL_URL: "https://github.com/remla25-team4/model-training/raw/main/models/naive_bayes.joblib" }
+    - name: MODEL_URL
+      value: "https://github.com/remla25-team4/model-training/raw/main/models/naive_bayes.joblib"
 ---
 apiVersion: v1
 kind: Service
@@ -32,17 +48,82 @@ spec:
 ---
 apiVersion: v1
 kind: Service
-metadata: { name: svc }
+metadata: { name: model-service }
 spec:
-  selector: { app: svc }
+  selector: { app: model-service }
   ports:
-  - { name: http, port: 1234, targetPort: 8080 }
+  - { name: http, port: 8080, targetPort: 8080 }
 ---
 apiVersion: networking.istio.io/v1beta1
 kind: Gateway
-metadata: { name: my-gateway }
+metadata:
+  name: my-gateway
 spec:
-  selector: { istio: ingressgateway }
+  selector:
+    istio: ingressgateway
   servers:
-  - port: { number: 80, name: http, protocol: HTTP }
-  hosts: [ "*" ]
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts: [ "*" ]
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: model-service-dr
+spec:
+  host: model-service
+  subsets:
+    - name: v1
+      labels: { version: v1 }
+    - name: v2
+      labels: { version: v2 }
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: model-service-vs
+spec:
+  hosts: [ model-service ]
+  http:
+  - match:
+    - sourceLabels: { version: v2 }
+    route:
+    - destination: { host: model-service, subset: v2 }
+  - route: # default route
+    - destination: { host: model-service, subset: v1 }
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata: { name: app-dr }
+spec:
+  host: app
+  subsets:
+  - name: v1
+    labels: { version: v1 }
+  - name: v2
+    labels: { version: v2 }
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: my-entry-service
+spec:
+  gateways:
+    - my-gateway
+  hosts:
+    - "*"
+  http:
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: app
+            subset: v1
+          weight: 90
+        - destination:
+            host: app
+            subset: v2
+          weight: 10
