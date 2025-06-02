@@ -50,7 +50,7 @@ Vagrant.configure("2") do |config|
 
     # Set memory to 4GB and CPU to 1
     ctrl_node.vm.provider "virtualbox" do |v|
-      v.memory = 16384
+      v.memory = 8192
       v.cpus = 4
     end
 
@@ -66,47 +66,6 @@ Vagrant.configure("2") do |config|
     config.vm.define "node-#{i}" do |node|
       node.vm.hostname = "node-#{i}"
       node.vm.network "private_network", ip: "192.168.56.10#{i}"
-
-      # Set memory & CPU
-      node.vm.provider "virtualbox" do |v|
-        v.memory = 6144
-        v.cpus = 2
-      end
-
-      # Open the node playbook.
-      node.vm.provision :ansible do |a|
-        a.playbook = "node.yaml"
-      end
-    end
-  end
-end
-  config.vm.provision :ansible do |a|
-    a.playbook = "general.yaml"
-  end
-
-  # Define control node
-  config.vm.define "ctrl" do |ctrl_node|
-    ctrl_node.vm.hostname = "ctrl"
-    ctrl_node.vm.network "private_network", ip: "192.168.56.100"
-
-    # Set memory to 4GB and CPU to 1
-    ctrl_node.vm.provider "virtualbox" do |v|
-      v.memory = 4096
-      v.cpus = 2
-    end
-
-    # Open the control playbook.
-    ctrl_node.vm.provision :ansible do |a|
-      a.playbook = "ctrl.yaml"
-    end
-  end
-
-  # Define workers
-  (1..num_workers).each do |i|
-    # Define first worker
-    config.vm.define "node-#{i}" do |node|
-      node.vm.hostname = "node-#{i}"
-      node.vm.network "private_network", ip: "192.168.56.10#{i}" 
 
       # Set memory & CPU
       node.vm.provider "virtualbox" do |v|
