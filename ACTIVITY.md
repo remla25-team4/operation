@@ -111,6 +111,11 @@
 - Alexandru Gliga
   - Created PR: [Created the first draft of documentation.md](https://github.com/remla25-team4/operation/pull/26) (related to A5)
   - Approved PR: [Set up Grafana](https://github.com/remla25-team4/operation/pull/19) (related to A3)
+- Yulin Chen
+  - Created PR: [Implement monitoring tests](https://github.com/remla25-team4/model-training/pull/21) (related to A4)
+  - Created PR: [Improve DVC pipeline and configuration](https://github.com/remla25-team4/model-training/pull/22) (related to A4)
+  - Created PR: [Add istio traffic management](https://github.com/remla25-team4/operation/pull/27) (related to A5)
+  - Approved PR: [Added extension file for k3d or kind implemenetation due to inconsistent vagrant up](https://github.com/remla25-team4/operation/pull/28) (related to A5)
  
 # Week 7
 - Ahmed Driouech:
