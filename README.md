@@ -207,13 +207,16 @@ Key values you might want to customize:
     ```
 2.  **Open in Browser:**
     Open your web browser and navigate to the configured host (e.g., `http://prometheus.local`).
-## Related Repositories 
+
 
 
 ## How to run our application for Assignment 4
 
 Instructions for cloning model-training repo, running DVC, etc.
 Link to: https://github.com/remla25-team4/model-training
+
+## Related Repositories 
+
 
 
 | Repo                                                              | Purpose                               |
