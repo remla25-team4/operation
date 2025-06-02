@@ -17,6 +17,7 @@ spec:
     env:
       - name: MODEL_SERVICE_URL
         value: "http://model-service:8080"
+
 ---
 apiVersion: v1
 kind: Pod
@@ -37,6 +38,7 @@ spec:
     env:
     - name: MODEL_URL
       value: "https://github.com/remla25-team4/model-training/raw/main/models/naive_bayes.joblib"
+
 ---
 apiVersion: v1
 kind: Service
@@ -54,20 +56,7 @@ spec:
   ports:
   - { name: http, port: 8080, targetPort: 8080 }
 ---
-apiVersion: networking.istio.io/v1beta1
-kind: Gateway
-metadata:
-  name: my-gateway
-spec:
-  selector:
-    istio: ingressgateway
-  servers:
-  - port:
-      number: 80
-      name: http
-      protocol: HTTP
-    hosts: [ "*" ]
----
+
 apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
@@ -79,6 +68,21 @@ spec:
       labels: { version: v1 }
     - name: v2
       labels: { version: v2 }
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata: { name: app-dr }
+spec:
+  host: app
+  subsets:
+  - name: v1
+    labels: { version: v1 }
+  - name: v2
+    labels: { version: v2 }
+  trafficPolicy:
+    loadBalancer:
+      consistentHash:
+        httpHeaderName: test-user
 ---
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
@@ -95,17 +99,6 @@ spec:
     - destination: { host: model-service, subset: v1 }
 ---
 apiVersion: networking.istio.io/v1beta1
-kind: DestinationRule
-metadata: { name: app-dr }
-spec:
-  host: app
-  subsets:
-  - name: v1
-    labels: { version: v1 }
-  - name: v2
-    labels: { version: v2 }
----
-apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: my-entry-service
@@ -115,6 +108,19 @@ spec:
   hosts:
     - "*"
   http:
+    - match:
+        - headers:
+            test-user:
+              regex: ".+" # Matches if the x-user header is present
+          uri:
+            prefix: /
+      route:
+        - destination:
+            host: app
+            subset: v2
+          weight: 100
+
+    # Default route for other users (90/10 split)
     - match:
         - uri:
             prefix: /
