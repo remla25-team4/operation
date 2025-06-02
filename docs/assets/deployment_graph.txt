@@ -1,0 +1,47 @@
+title Istio Canary Deployment with ML Model and Monitoring
+
+Internet [icon: globe] {
+  Browser [icon: monitor, label: "User Browser"]
+}
+
+Istio IngressGateway [icon: k8s-istio-ingressgateway, label: "Istio Ingress Gateway"]
+
+"ns-app" [icon: k8s-namespace, label: "ns: app"] {
+  AppStable [icon: k8s-pod, label: "app-stable (Pod + Envoy)"]
+  AppCanary [icon: k8s-pod, label: "app-canary (Pod + Envoy)"]
+}
+
+"ns-ml" [icon: k8s-namespace, label: "ns: ml"] {
+  ModelStable [icon: k8s-pod, label: "model-stable (Pod + Envoy)"]
+  ModelCanary [icon: k8s-pod, label: "model-canary (Pod + Envoy)"]
+  ModelCache [icon: database, label: "PVC: /model-cache"]
+}
+
+Prometheus [icon: prometheus]
+Grafana [icon: grafana]
+Alertmanager [icon: bell]
+
+// Connections
+Browser > Istio IngressGateway: HTTPS
+
+// Traffic split
+Istio IngressGateway > AppStable: VS 90%
+Istio IngressGateway > AppCanary: VS 10%
+
+// App to Model
+AppStable > ModelStable: HTTP
+AppCanary > ModelCanary: HTTP
+
+// Monitoring (dashed lines for metrics)
+AppStable --> Prometheus: /metrics
+AppCanary --> Prometheus: /metrics
+ModelStable --> Prometheus: /metrics
+ModelCanary --> Prometheus: /metrics
+Istio IngressGateway --> Prometheus: Envoy telemetry
+
+Prometheus > Grafana
+Prometheus > Alertmanager: alerts
+
+// Model pods mount shared cache
+ModelStable --> ModelCache: mount
+ModelCanary --> ModelCache: mount

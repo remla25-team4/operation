@@ -1,0 +1,25 @@
+---
+config:
+  theme: neutral
+---
+flowchart LR
+    subgraph "Workloads"
+        direction TB
+        EnvoySidecar((Envoy side-car))
+    end
+    ServiceMon[ServiceMonitor label-selects pods]
+    Prom[Prometheus TSDB]
+    Rule[PrometheusRule alert logic]
+    AlertMgr[Alertmanager]
+    Pager[PagerDuty / Slack]
+    Graf[Grafana Dashboards]
+    Kiali[Kiali Mesh UI]
+    EnvoySidecar -- scrape --> ServiceMon
+    ServiceMon --> Prom
+    Prom -- evaluates --> Rule
+    Rule -- fires --> AlertMgr
+    AlertMgr -- notifies --> Pager
+    Prom -- metrics --> Graf
+    Prom -- metrics & topology --> Kiali
+    classDef box fill:#f7fbff,stroke:#1e88e5,stroke-width:2px;
+    class ServiceMon,Prom,Rule,AlertMgr,Graf,Kiali box;
