@@ -119,5 +119,5 @@
  
 # Week 7
 - Ahmed Driouech:
-  - Created PR: []() (related to A5)
+  - Created PR: [Add rate-limiting](https://github.com/remla25-team4/operation/pull/29) (related to A5)
   - Approved PR: [Istio traffic management](https://github.com/remla25-team4/operation/pull/27) (related to A5)
