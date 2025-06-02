@@ -111,3 +111,8 @@
 - Alexandru Gliga
   - Created PR: [Created the first draft of documentation.md](https://github.com/remla25-team4/operation/pull/26) (related to A5)
   - Approved PR: [Set up Grafana](https://github.com/remla25-team4/operation/pull/19) (related to A3)
+ 
+# Week 7
+-Ahmed Driouech:
+  - Created PR: []() (related to A5)
+  - Approved PR: [Istio traffic management](https://github.com/remla25-team4/operation/pull/27) (related to A5)
