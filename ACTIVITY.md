@@ -105,4 +105,9 @@
   - Approved PR: [Switch to Flask API](https://github.com/remla25-team4/model-service/pull/6) (related to A1/general)
 - Maria Clara Espírito Santo
   - Approved PR: [Added service account so everyone can use dvc through it](https://github.com/remla25-team4/model-training/pull/18) (related to A4)
-  
+  - Created PR: [ Added SSH public key and update Ansible general.yaml](https://github.com/remla25-team4/operation/pull/20) (related to A3)
+  - Created PR: [Added extension file for k3d or kind implemenetation due to inconsistent vagrant up](https://github.com/remla25-team4/operation/pull/28) (related to A5)
+  - Approved PR: [First draft for deployment.md file](https://github.com/remla25-team4/operation/pull/26) (related to A5)
+- Alexandru Gliga
+  - Created PR: [Created the first draft of documentation.md](https://github.com/remla25-team4/operation/pull/26) (related to A5)
+  - Approved PR: [Set up Grafana](https://github.com/remla25-team4/operation/pull/19) (related to A3)

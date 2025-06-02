@@ -208,12 +208,19 @@ Key values you might want to customize:
 2.  **Open in Browser:**
     Open your web browser and navigate to the configured host (e.g., `http://prometheus.local`).
 
-# How to run our application for Assignment 5
-# Usage Instructions
+
+## How to run our application for Assignment 4
+
+Instructions for cloning model-training repo, running DVC, etc.
+Link to: https://github.com/remla25-team4/model-training
+
+
+## How to run our application for Assignment 5
+### Usage Instructions
 
 This guide explains how to deploy the v1 and v2 (canary) versions of the application using Istio for traffic management.
 
-## Prerequisites
+### Prerequisites
 
 * Kubernetes cluster running (You have followed all previous steps).
 * Istio installed.
@@ -222,7 +229,7 @@ This guide explains how to deploy the v1 and v2 (canary) versions of the applica
     kubectl label namespace default istio-injection=enabled
     ```
 
-## Step 1: Deploy App
+### Step 1: Deploy App
 
 This deploys the main version of `app` alongside a canary release and `model-service`, with Istio configurations (Gateway, DestinationRules, VirtualServices for 90/10 split and consistent routing).
 
@@ -241,7 +248,7 @@ This deploys the main version of `app` alongside a canary release and `model-ser
     ```
     The 90/10 traffic split defined in `app.yml` (and reaffirmed in `app-canary.yml`) will now route 10% of traffic to `app-v2`.
 
-## Step 2: Access the Application
+### Step 2: Access the Application
 
 1.  Get the Istio Ingress Gateway address:
     ```bash
@@ -249,12 +256,13 @@ This deploys the main version of `app` alongside a canary release and `model-ser
     ```
 2.  Copy the `EXTERNAL-IP` and paste it in your browser.
 
-## Step 3: Observe Canary Release
+### Step 3: Observe Canary Release
 
 Refresh your browser multiple times. You should see traffic split between `app-v1` (90%) and `app-v2` (10%), with `model-service` versions consistent with the `app` version.
 
-
 ## Related Repositories 
+
+
 
 | Repo                                                              | Purpose                               |
 | ----------------------------------------------------------------- | ------------------------------------- |
