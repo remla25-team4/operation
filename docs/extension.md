@@ -1,5 +1,7 @@
 # Extension Proposal: Simplifying Local Kubernetes Deployment with Lightweight Alternatives
 
+### Team 4
+
 ## Identified Shortcoming
 
 One of the most error-prone aspects of our current project setup is the local deployment of the Kubernetes cluster using Vagrant and VirtualBox, especially in Assignment 2. The process is fragile, resource-intensive, and consistently fails across multiple team members due to factors like:lLimited disk space (as little as 1 GB free space causes complete failure), vagrant provisioning inconsistencies and manual intervention requirements (e.g., `vagrant destroy` + retry cycles).
@@ -35,18 +37,25 @@ While this approach does deviate slightly from Assignment 2’s original require
 
 ### Experimenting Plan to See if it Works Better
 
-To test whether switching from Vagrant + VirtualBox to a lightweight container-based Kubernetes setup improves reliability we can test out with the following steps:
+For our experiment, we want to be testing the following things:
+- Setup time and reliability
+- User Experience
+
 
 ### Setup
 
 - Host machine: Single machine used for all tests to eliminate hardware variability.
+- The machine should have more than sufficient memory (> 12 GB RAM, >6 CPU cores) to run both setups without running into resource constraints.
 
-- Allocated resources (Vagrant baseline):
+Baseline Configuration
+  - 3 nodes (ctrl + node 1 + node 2 like in the assignments)
   - 2 vCPUs per VM  
   - 4 GB RAM per VM
-  - Resource guidelines from Kublr can  give useful context: ["For a minimal Kublr Platform installation you should have one master node with 4GB memory and 2 CPU and worker node(s) with total 10GB + 1GB × (number of nodes) and 4.4 + 0.5 × (number of nodes) CPU cores."]()
 
-- kind/k3d setup: Uses shared host resources; resource usage monitored via `docker stats`.
+Test Configuration
+  - One configuration for kind and another for k3d. Each test also includes 3 nodes (ctrl + node 1 + node 2)
+  - Resource guidelines from Kublr can  give useful context: ["For a minimal Kublr Platform installation you should have one master node with 4GB memory and 2 CPU and worker node(s) with total 10GB + 1GB × (number of nodes) and 4.4 + 0.5 × (number of nodes) CPU cores."](https://docs.kublr.com/installation/hardware-recommendation/)
+  - kind/k3d setup: Uses shared host resources; resource usage monitored via `docker stats`.
 
 ### Methadology
 
@@ -60,31 +69,27 @@ To test whether switching from Vagrant + VirtualBox to a lightweight container-b
   - Deploy Helm charts as with the baseline.
   - Record time from cluster creation to successful `kubectl get nodes`.
 
-- Repetitions: Repeat each setup 5 times to account for variation.
+- Repeat each setup at least 30 times to get a robust set of measurements that accounts for any variation in the results.
 
 ### Metrics
 
-- Average time to first successful `kubectl get nodes`
-- Standard deviation of setup time
-- Number of provisioning errors (per run)
-- Subjective feedback on clarity/frustration level (rated 1–5)
+- `Setup time` per iteration: time taken (s) for all nodes to join the cluster and become ready
+- `Average setup time`: Mean time taken (s) for all nodes to join the cluster and become ready over 30 iterations
+- `Standard deviation setup time`: Standard deviation of time taken (s) for all nodes to join the cluster and become ready over 30 iterations
+- `# provisioning failures per configuration`: Count of iterations that did not complete successfully on its own
+- `Completion Rate per configuration (%)`: (Number of successful iterations / 30) * 100.
+- `Error logs`: Any error messages encountered during setup
+- `Subjective Feedback (Average rating)`: The tester provides a rating (1-5 scale, where 1 = Very Frustrating/Difficult, 5 = Very Smooth/Easy) for the setup experience of each iteration, this is then averaged over 30.
 
-### Analysis
+### Next steps
 
-- Report mean with standard deviation for setup time
-- Compare setups using a basic paired t-test (if assumptions met) or descriptive comparison
-- Discuss setup trade-offs based on logs and observationsovisioning errors encountered during setup
-
-
-### Experiment Design
-
-* Use a single machine to eliminate hardware variation as a fator.
-* Run the baseline setup (Vagrant + Ansible) and the proposed setup (kind or k3d) sequentially on the same host.
-* Measure time taken from initial setup to successful `kubectl get nodes`.
-* Take not of any errors or interruptions found during provisioning.
-
+- Report the above metrics collected from the baseline and alternative setups.
+- Compare setups using a basic paired t-test between numerical results from the baseline and alternative setups.
+- Discuss any additional observations or qualitative feedback from our testers.
+- Conclude whether switching to kind or k3d is beneficial for our project and whether it should be recommended for future assignments.
 
 ## Conclusion
 
-The current Vagrant + VirtualBox stack seems to be outdated and unsuitable for modern lightweight development (+ a common issue for many developers on stackoverflow). Replacing it with kind or k3d streamlines the development workflow, reduces setup pain, and enables faster experimentation, benefiting both our project and future similar deployments.
+The current Vagrant + VirtualBox stack seems to be outdated and unsuitable for modern lightweight development (+ a common issue for many developers on stackoverflow). Replacing it with kind or k3d has the potential to streamline the development workflow, reduce setup troubles, and enables faster experimentation, benefiting both our project and similar future deployments.
+
 
