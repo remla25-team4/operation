@@ -127,3 +127,7 @@
 - Yulin Chen:
   - Created PR: [Model service v2](https://github.com/remla25-team4/model-service/pull/9) (related to A1 and A5)
   - Approved PR: [Added rate-limiting](https://github.com/remla25-team4/operation/pull/29/files) (related to A5)
+- Alexandru Postu:
+  - Created PR: [Vagrantfile for excellent](https://github.com/remla25-team4/operation/pull/30) (related to A2)
+  - Created PR: [Record elapsed time since refresh metric](https://github.com/remla25-team4/app/pull/15) (related to A5)
+  - Approved PR: [Solved the feedback reset issue](https://github.com/remla25-team4/app/pull/14) (related to A1)
