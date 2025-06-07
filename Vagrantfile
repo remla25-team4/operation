@@ -22,15 +22,19 @@ Vagrant.configure("2") do |config|
     trigger.ruby do
       
       File.open("inventory.cfg", 'w') do |f|
-        f.puts "[ctrl]"
-        f.puts "ansible-host=#{network_base}100"
+        f.puts "[controller]"
+        f.puts "ctrl ansible_host=#{network_base}100"
         f.puts ""
         
+        f.puts "[workers]"
         (1..num_workers).each do |i|
-          f.puts "[node-{i}]"
-          f.puts "ansible_host=#{network_base}10#{i} ansible_user=vagrant"
-          f.puts ""
+          f.puts "node-#{i} ansible_host=#{network_base}10#{i} ansible_user=vagrant"
         end
+
+        f.puts ""
+        f.puts "[all:children]"
+        f.puts "controller"
+        f.puts "workers"
       end
       puts "Inventory file creation succeeded"
     end
