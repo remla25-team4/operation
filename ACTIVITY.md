@@ -131,3 +131,6 @@
   - Created PR: [Vagrantfile for excellent](https://github.com/remla25-team4/operation/pull/30) (related to A2)
   - Created PR: [Record elapsed time since refresh metric](https://github.com/remla25-team4/app/pull/15) (related to A5)
   - Approved PR: [Solved the feedback reset issue](https://github.com/remla25-team4/app/pull/14) (related to A1)
+- Maria Clara Espírito Santo
+  - Created PR: [ Continuous-experimentation A5 new app button](https://github.com/remla25-team4/app/pull/16) (related to A5)
+  - Approved PR:[ Recorded elapsed time since refresh for the experiment part of A5](https://github.com/remla25-team4/app/pull/15) (related to A5)
