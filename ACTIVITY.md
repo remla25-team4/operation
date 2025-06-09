@@ -134,3 +134,8 @@
 - Maria Clara Espírito Santo
   - Created PR: [ Continuous-experimentation A5 new app button](https://github.com/remla25-team4/app/pull/16) (related to A5)
   - Approved PR:[ Recorded elapsed time since refresh for the experiment part of A5](https://github.com/remla25-team4/app/pull/15) (related to A5)
+
+# Week 8
+- Alexandru Gliga:
+  - Created PR:: [Model and BOW versioning](https://github.com/remla25-team4/model-training/pull/23) (related to A1)
+  - Created PR:: [Updated model-service to use new artifacts](https://github.com/remla25-team4/model-service/pull/10) (related to A1)
