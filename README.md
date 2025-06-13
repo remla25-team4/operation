@@ -30,9 +30,22 @@ cd operation
 
 3. Start the application:
 
+You have two options:
+
+a. Run in foreground (shows logs)
+
 ```bash
 docker compose up
 ```
+
+This starts the services and shows logs in your terminal. You can then press `CTRL+C` to stop the application
+
+b. Run in background (detached mode)
+
+```bash
+docker compose up -d
+```
+This runs the containers in the background. To view logs: `docker compose logs -f` and to stop everything: `docker compose down`
 
 
 The app will start two services:
