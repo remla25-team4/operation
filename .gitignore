@@ -6,3 +6,4 @@ kubeconfig
 
 .idea
 get_helm.sh
+/inventory.cfg
