@@ -281,9 +281,33 @@ This deploys the main version of `app` alongside a canary release and `model-ser
     ```
 2.  Copy the `EXTERNAL-IP` and paste it in your browser.
 
-### Step 3: Observe Canary Release
+### Step 3: Choose Routing Strategy
 
-Refresh your browser multiple times. You should see traffic split between `app-v1` (90%) and `app-v2` (10%), with `model-service` versions consistent with the `app` version.
+For this assignment, we have implemented both the option to route traffic with weights (v1: 90% / v2: 10%) and sticky sessions (odd userids always get v1 and even userids get v2)
+
+To enable weighted routing:
+
+```bash
+kubectl apply -f weighted-routing.yml
+```
+
+To enable sticky routing:
+
+```bash
+kubectl apply -f sticky-routing.yml
+```
+
+Note: To test the correctness of the routing behavior, you can use the following command:
+
+```bash
+curl -H "userid: 1" 192.168.56.91/api/versions
+```
+
+For weighted routing, you should see that an older version of app is displayed most of the time.
+
+For sticky routing, if the userid value is odd, the app version will always be the older one (v1) and will not change if userid stays the same
+If the userid is changed to an even numberm the app version should now be the newer one (v2).
+
 
 ### step 4: Rate-limiting
 
