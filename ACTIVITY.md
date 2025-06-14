@@ -139,3 +139,6 @@
 - Alexandru Gliga:
   - Created PR:: [Model and BOW versioning](https://github.com/remla25-team4/model-training/pull/23) (related to A1)
   - Created PR:: [Updated model-service to use new artifacts](https://github.com/remla25-team4/model-service/pull/10) (related to A1)
+- Yulin Chen:
+  - Created PR: [Seperate sticky routing from weighted routing](https://github.com/remla25-team4/operation/pull/33) (related to A5)
+  - Approved PR: [Added rate-limiting](https://github.com/remla25-team4/operation/pull/29) (related to A5)
