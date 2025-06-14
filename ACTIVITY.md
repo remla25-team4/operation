@@ -145,3 +145,6 @@
 - Yulin Chen:
   - Created PR: [Seperate sticky routing from weighted routing](https://github.com/remla25-team4/operation/pull/33) (related to A5)
   - Approved PR: [Added rate-limiting](https://github.com/remla25-team4/operation/pull/29) (related to A5)
+ - Alexandru Postu:
+  - Created PR: [Added grafana dashboard that should compare metrics across app versions](https://github.com/remla25-team4/operation/pull/31) (related to A5)
+  - Approved PR: [Continuous-experimentation A5 new app button](https://github.com/remla25-team4/app/pull/16) (related to A5)
