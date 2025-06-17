@@ -62,7 +62,7 @@
     - Approved PR: [Enhance app](https://github.com/remla25-team4/app/pull/4)
 - Maria Clara Espírito Santo
     - Created PR: [Setup Helm chart for 1.1](https://github.com/remla25-team4/operation/pull/9) (related to A3)
-    - Approved PR: [Fix-istio-installation](https://github.com/remla25-team4/operation/pull/16)
+    - Approved PR: [Fix-istio-installation](https://github.com/remla25-team4/operation/pull/16) (related to A3)
     - Approved PR: [Complete migration from docker compose to kubernetes](https://github.com/remla25-team4/operation/pull/11) (Related to A3)
 - Alexandru Gliga:
     - Created PR: [Switched to from fastapi to flask](https://github.com/remla25-team4/model-service/pull/6) (Related to A2)
