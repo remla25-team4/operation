@@ -103,7 +103,8 @@ Once open, paste this line at the end
 
 `192.168.56.90   dashboard.local`
 
- then save and exit.
+ then save and exit. This maps `dashboard.local` to the control node’s IP so your browser can access the Kubernetes Dashboard.
+ Once opened in a browser (`https://dashboard.local`), the Dashboard lets you inspect and manage your Kubernetes cluster through a web interface.
 
 5. Load kubeconfig to all your terminal sessions
 
