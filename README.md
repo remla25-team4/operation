@@ -120,9 +120,13 @@ nano ~/.zshrc
 
 if you are using zsh.
 
-Copy the full path of the file named `kubeconfig` in this repository that should be generated after running step 3.
+Copy the full path of the file named `kubeconfig` in this repository that should be generated after running step 3. If not, you may find it by running:
+```bash
+realpath kubeconfig
+```
 
-Then paste this line at the end of your `.bashrc`/`.zshrc`:
+
+Then paste this directory at the end of your `.bashrc`/`.zshrc`:
 `export KUBECONFIG=path/to/your/operation/kubeconfig`
 
 Save and exit then:
