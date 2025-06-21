@@ -79,9 +79,11 @@
       ansible.builtin.command: kubectl apply -f /tmp/kube-flannel.yml
       when:
         - kubeconfig_file.stat.exists
-        - flannel_status.rc != 0  
+        - flannel_status.rc != 0
       register: flannel_apply
-      changed_when: "'configured' in flannel_apply.stdout or 'created' in flannel_apply.stdout"
+      changed_when: >
+        flannel_apply.stdout is search("created") or
+        flannel_apply.stdout is search("configured")
       environment:
         KUBECONFIG: /home/vagrant/.kube/config
 
