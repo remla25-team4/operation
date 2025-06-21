@@ -225,4 +225,62 @@
                 targetPort: 8443
                 name: https
 
+    # Part from here below is used for the self-signed TLS certifcate.
+
+    #This is where we generate the certificate itself.
+    - name: Generate self-signed TLS certificate for dashboard.local
+      ansible.builtin.command: >
+        openssl req -x509 -nodes -days 365 -newkey rsa:2048
+        -subj "/CN=dashboard.local"
+        -keyout /tmp/dashboard.key
+        -out /tmp/dashboard.crt
+      args:
+        creates: /tmp/dashboard.crt
+    # We then create the TLS secret
+    - name: Create TLS secret 
+      kubernetes.core.k8s:
+        state: present
+        definition:
+          apiVersion: v1
+          kind: Secret
+          metadata:
+            name: dashboard-tls
+            namespace: kubernetes-dashboard
+          type: kubernetes.io/tls
+          data:
+            tls.crt: "{{ lookup('file', '/tmp/dashboard.crt') | b64encode }}"
+            tls.key: "{{ lookup('file', '/tmp/dashboard.key') | b64encode }}"
+
+    # Create Ingress for Kubernetes Dashboard with HTTPS
+    - name: Create Ingress for Kubernetes Dashboard
+      kubernetes.core.k8s:
+        state: present
+        definition:
+          apiVersion: networking.k8s.io/v1
+          kind: Ingress
+          metadata:
+            name: kubernetes-dashboard-ingress
+            namespace: "kubernetes-dashboard"
+            annotations:
+              nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+              nginx.ingress.kubernetes.io/ssl-redirect: "true"
+          spec:
+            ingressClassName: nginx
+            tls:
+              - hosts:
+                  - dashboard.local
+                secretName: dashboard-tls
+            rules:
+              - host: "dashboard.local"
+                http:
+                  paths:
+                    - path: /
+                      pathType: Prefix
+                      backend:
+                        service:
+                          name: kubernetes-dashboard
+                          port:
+                            number: 443
+
+
 
