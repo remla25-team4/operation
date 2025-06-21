@@ -167,7 +167,7 @@
                       pathType: Prefix
                       backend:
                         service:
-                          name: kubernetes-dashboard-kong-proxy
+                          name: kubernetes-dashboard
                           port:
                             number: 443
 
@@ -183,7 +183,6 @@
         owner: vagrant
         group: vagrant
         remote_src: yes
-        # Idempotency: check if the istioctl binary already exists
         creates: "/home/vagrant/istio-{{ istio_version }}/bin/istioctl"
 
     - name: "Add Istio {{ istio_version }} istioctl to vagrant user's PATH in .profile"
@@ -205,4 +204,25 @@
         KUBECONFIG: "/home/vagrant/.kube/config"
       args:
         chdir: "/home/vagrant/istio-{{ istio_version }}/"
+
+    - name: Patch Istio ingress gateway with fixed IP
+      kubernetes.core.k8s:
+        state: present
+        definition:
+          apiVersion: v1
+          kind: Service
+          metadata:
+            name: istio-ingressgateway
+            namespace: istio-system
+          spec:
+            type: LoadBalancer
+            loadBalancerIP: 192.168.56.91
+            ports:
+              - port: 80
+                targetPort: 8080
+                name: http
+              - port: 443
+                targetPort: 8443
+                name: https
+
 
