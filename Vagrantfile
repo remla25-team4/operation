@@ -54,7 +54,7 @@ Vagrant.configure("2") do |config|
     ctrl_node.vm.hostname = "ctrl"
     ctrl_node.vm.network "private_network", ip: "#{network_base}100"
 
-    # Set memory to 4GB and CPU to 1
+    # Set memory to 4GB and CPU to 2
     ctrl_node.vm.provider "virtualbox" do |v|
       v.memory = ctrl_memory
       v.cpus = ctrl_cpus

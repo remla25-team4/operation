@@ -11,6 +11,11 @@
         timeout: 300
         msg: "Kubernetes API server on controller (192.168.56.100:6443) is not responding after 300 seconds."
 
+    - name: Check if node has already joined the cluster
+      ansible.builtin.stat:
+        path: /etc/kubernetes/kubelet.conf
+      register: kubelet_config
+
     - name: Get kubeadm join command from controller
       ansible.builtin.command: kubeadm token create --print-join-command
       delegate_to: "{{ groups['ctrl'][0] | default('ctrl') }}"
@@ -30,10 +35,13 @@
         KUBECONFIG: /home/vagrant/.kube/config
       register: delete_node_status
       changed_when: "'deleted' in delete_node_status.stdout"
+      when: not kubelet_config.stat.exists
 
     - name: Clean up old configuration files for previous node (if it exists)
       ansible.builtin.command: kubeadm reset -f
-      when: join_command.stdout is defined and join_command.stdout | length > 0
+      when:
+        - not kubelet_config.stat.exists
+        - join_command.stdout is defined and join_command.stdout | length > 0
       register: kubeadm_reset_status
       changed_when: "'kubeadm reset' in kubeadm_reset_status.stdout or 'Removed' in kubeadm_reset_status.stdout or 'unmounted' in kubeadm_reset_status.stdout"
       failed_when: kubeadm_reset_status.rc != 0 and "Couldn't reset Kubernetes cluster" not in kubeadm_reset_status.stderr and "nothing to reset" not in kubeadm_reset_status.stderr
@@ -42,6 +50,8 @@
       ansible.builtin.shell: "{{ join_command.stdout }}"
       args:
         executable: /bin/bash
-      when: join_command.stdout is defined and join_command.stdout | length > 0
+      when: 
+        - not kubelet_config.stat.exists
+        - join_command.stdout is defined and join_command.stdout | length > 0
       register: kubeadm_join_status
       changed_when: "'This node has joined the cluster' in kubeadm_join_status.stdout"
