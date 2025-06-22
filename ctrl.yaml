@@ -39,20 +39,6 @@
         src: /etc/kubernetes/admin.conf
         dest: ./kubeconfig
         flat: yes
-      when: not kubeconfig_file.stat.exists  
-
-    - name: Download kube-flannel.yml 
-      ansible.builtin.get_url:
-        url: https://github.com/flannel-io/flannel/releases/download/v0.26.7/kube-flannel.yml
-        dest: /tmp/kube-flannel.yml
-        mode: '0644'
-      when: not kubeconfig_file.stat.exists 
-
-    - name: Add iface argument to kube-flannel.yml DaemonSet
-      ansible.builtin.lineinfile:
-        path: /tmp/kube-flannel.yml
-        insertafter: '^\s*- --kube-subnet-mgr'
-        line: '        - --iface=eth1'
       when: not kubeconfig_file.stat.exists
 
     - name: Check if flannel is already applied
@@ -63,29 +49,32 @@
       changed_when: false
       environment:
         KUBECONFIG: /home/vagrant/.kube/config
-    
-    - name: Check if Flannel is deployed
-      become_user: vagrant
-      ansible.builtin.command: >
-        kubectl get daemonset kube-flannel -n kube-flannel -o json
-      register: flannel_status
-      failed_when: false
-      changed_when: false
-      environment:
-        KUBECONFIG: /home/vagrant/.kube/config
 
-    - name: Apply kube-flannel if not already applied
-      become_user: vagrant
-      ansible.builtin.command: kubectl apply -f /tmp/kube-flannel.yml
-      when:
-        - kubeconfig_file.stat.exists
-        - flannel_status.rc != 0
-      register: flannel_apply
-      changed_when: >
-        flannel_apply.stdout is search("created") or
-        flannel_apply.stdout is search("configured")
-      environment:
-        KUBECONFIG: /home/vagrant/.kube/config
+    - name: Install Flannel because it was not found
+      block:
+        - name: Download kube-flannel.yml
+          ansible.builtin.get_url:
+            url: https://github.com/flannel-io/flannel/releases/download/v0.26.7/kube-flannel.yml
+            dest: /tmp/kube-flannel.yml
+            mode: '0644'
+
+        - name: Add iface argument to kube-flannel.yml DaemonSet
+          ansible.builtin.lineinfile:
+            path: /tmp/kube-flannel.yml
+            insertafter: '^\s*- --kube-subnet-mgr'
+            line: '        - --iface=eth1'
+
+        - name: Apply kube-flannel manifest
+          become_user: vagrant
+          ansible.builtin.command: kubectl apply -f /tmp/kube-flannel.yml
+          register: flannel_apply
+          changed_when: >
+            flannel_apply.stdout is search("created") or
+            flannel_apply.stdout is search("configured")
+          environment:
+            KUBECONFIG: /home/vagrant/.kube/config
+
+      when: flannel_installed.stdout == ""
 
     - name: Get system architecture (dpkg)
       ansible.builtin.command: dpkg --print-architecture
