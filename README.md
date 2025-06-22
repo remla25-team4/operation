@@ -75,7 +75,7 @@ MODEL_SERVICE_URL=http://localhost:8080
 * VirtualBox installed
 * Vagrant installed
 * Ansible installed
-* SSH enabled (please copy your public key to `operation/public-keys`)
+* SSH enabled: please copy your public key to the directory `operation/public-keys`
 
 ### Steps to start the Kubernetes cluster
 1. Clone the operations repository (if not already):
@@ -85,17 +85,12 @@ git clone https://github.com/remla25-team4/operation.git
 cd operation
 ```
 
-2. Start the virtual machines with Vagrant
+2. Start the virtual machines with Vagrant and complete the setup
 ```bash
-vagrant up --provision
+vagrant up --provision ; ansible-playbook -u vagrant -i 192.168.56.100, playbooks/finalization.yml
 ```
 
-3. Finalize setup with finalization.yml
-```bash
-ansible-playbook -u vagrant -i 192.168.56.100, finalization.yml
-```
-
-4. Add hostname to enable access in the browser
+3. Add hostname to enable access in the browser
 ```bash
 sudo nano /etc/hosts
 ```
@@ -105,7 +100,7 @@ Once open, paste this line at the end
 
  then save and exit. This maps `dashboard.local` to the control node’s IP so your browser can access the Kubernetes Dashboard.
  
-5. Load kubeconfig to all your terminal sessions
+4. Load kubeconfig to all your terminal sessions
 
 Depending on what terminal you are using:
 ```bash

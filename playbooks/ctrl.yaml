@@ -37,7 +37,7 @@
     - name: Copy kubeconfig to host machine
       ansible.builtin.fetch:
         src: /etc/kubernetes/admin.conf
-        dest: ./kubeconfig
+        dest: "{{ playbook_dir }}/../kubeconfig"
         flat: yes
       when: not kubeconfig_file.stat.exists
 
