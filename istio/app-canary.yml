@@ -10,7 +10,7 @@ metadata:
 spec:
   containers:
   - name: app
-    image: ghcr.io/remla25-team4/app:latest
+    image: ghcr.io/remla25-team4/app:2.0.8
     imagePullPolicy: Always
     ports:
     - containerPort: 3001
@@ -36,4 +36,4 @@ spec:
     - containerPort: 8080
     env:
     - name: MODEL_URL
-      value: "https://github.com/remla25-team4/model-training/raw/main/models/naive_bayes.joblib"
+      value: "https://github.com/remla25-team4/model-training/releases/latest/download/naive_bayes.joblib"
