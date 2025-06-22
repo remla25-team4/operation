@@ -103,8 +103,8 @@ Once open, paste this line at the end
 
 `192.168.56.90   dashboard.local`
 
- then save and exit.
-
+ then save and exit. This maps `dashboard.local` to the control node’s IP so your browser can access the Kubernetes Dashboard.
+ 
 5. Load kubeconfig to all your terminal sessions
 
 Depending on what terminal you are using:
@@ -120,9 +120,13 @@ nano ~/.zshrc
 
 if you are using zsh.
 
-Copy the full path of the file named `kubeconfig` in this repository that should be generated after running step 3.
+Copy the full path of the file named `kubeconfig` in this repository that should be generated after running step 3. If not, you may find it by running:
+```bash
+realpath kubeconfig
+```
 
-Then paste this line at the end of your `.bashrc`/`.zshrc`:
+
+Then paste this directory at the end of your `.bashrc`/`.zshrc`:
 `export KUBECONFIG=path/to/your/operation/kubeconfig`
 
 Save and exit then:
