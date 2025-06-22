@@ -5,14 +5,9 @@
     ansible.posix.authorized_key:
       user: vagrant
       state: present
-      key: '{{ item }}'
-    with_file:
-      - public-keys/ahmed
-      - public-keys/alexgliga
-      - public-keys/alexpostu
-      - public-keys/yulin
-      - public-keys/clara
-      - public-keys/yulin-ubuntu
+      key: "{{ lookup('file', item) }}"
+    with_fileglob:
+      - "{{ playbook_dir }}/../public-keys/*"
 
   - name: Disable swap (only if swap is on)
     ansible.builtin.command: swapoff -a
@@ -27,7 +22,7 @@
 
   - name: Distribute static /etc/hosts with cluster mappings
     ansible.builtin.copy:
-      src: files/hosts
+      src: "{{ playbook_dir }}/../files/hosts"
       dest: /etc/hosts
 
   - name: Ensure apt-transport-https is present

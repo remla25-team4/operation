@@ -43,7 +43,7 @@ Vagrant.configure("2") do |config|
 
   # Open the general setup playbook.
   config.vm.provision :ansible do |a|
-    a.playbook = "general.yaml"
+    a.playbook = "playbooks/general.yaml"
     a.extra_vars = {
         num_workers: num_workers
       }
@@ -62,7 +62,7 @@ Vagrant.configure("2") do |config|
 
     # Open the control playbook.
     ctrl_node.vm.provision :ansible do |a|
-      a.playbook = "ctrl.yaml"
+      a.playbook = "playbooks/ctrl.yaml"
     end
   end
 
@@ -81,7 +81,7 @@ Vagrant.configure("2") do |config|
 
       # Open the node playbook.
       node.vm.provision :ansible do |a|
-        a.playbook = "node.yaml"
+        a.playbook = "playbooks/node.yaml"
       end
 
     end

@@ -23,7 +23,7 @@
 
     - name: Copy local MetalLB manifest to controller node
       ansible.builtin.copy:
-        src: "files/metallb-native-v0.14.9.yaml"
+        src: "{{ playbook_dir }}/../files/metallb-native-v0.14.9.yaml"
         dest: "/tmp/metallb-native-v0.14.9.yaml"
         mode: '0644'
 
