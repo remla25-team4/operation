@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-rules
+data:
+  prometheus_rules.yaml: |
+    groups:
+    - name: {{ .Release.Name }}.rules
+      rules:
+      - alert: HighActivePredictionRate
+        expr: rate(active_prediction_requests[1m]) > 10
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High sentiment prediction rate detected"
+          description: "Restaurant app >10 predictions/min"
