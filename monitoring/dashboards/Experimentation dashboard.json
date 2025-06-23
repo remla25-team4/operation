@@ -1,97 +1,231 @@
 {
-  "dashboard": {
-    "id": null,
-    "title": "Time to Click Comparison",
-    "timezone": "browser",
-    "schemaVersion": 38,
-    "version": 1,
-    "refresh": "10s",
-    "panels": [
+  "annotations": {
+    "list": [
       {
-        "type": "stat",
-        "title": "Average Time to Click - Main",
-        "id": 1,
-        "gridPos": { "x": 0, "y": 0, "w": 12, "h": 6 },
+        "builtIn": 1,
         "datasource": {
-          "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
+          "type": "grafana",
+          "uid": "-- Grafana --"
         },
-        "targets": [
-          {
-            "expr": "rate(time_to_click_seconds_sum{version=\"main\"}[1m]) / rate(time_to_click_seconds_count{version=\"main\"}[1m])",
-            "format": "time_series",
-            "interval": "",
-            "legendFormat": "",
-            "refId": "A"
-          }
-        ],
-        "options": {
-          "reduceOptions": {
-            "calcs": ["last"],
-            "fields": "",
-            "values": false
-          },
-          "orientation": "horizontal"
-        }
-      },
-      {
-        "type": "stat",
-        "title": "Average Time to Click - Canary",
-        "id": 2,
-        "gridPos": { "x": 12, "y": 0, "w": 12, "h": 6 },
-        "datasource": {
-          "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
-        },
-        "targets": [
-          {
-            "expr": "rate(time_to_click_seconds_sum{version=\"canary\"}[1m]) / rate(time_to_click_seconds_count{version=\"canary\"}[1m])",
-            "format": "time_series",
-            "interval": "",
-            "legendFormat": "",
-            "refId": "B"
-          }
-        ],
-        "options": {
-          "reduceOptions": {
-            "calcs": ["last"],
-            "fields": "",
-            "values": false
-          },
-          "orientation": "horizontal"
-        }
-      },
-      {
-        "type": "barchart",
-        "title": "Time to Click Distribution",
-        "id": 3,
-        "gridPos": { "x": 0, "y": 6, "w": 24, "h": 10 },
-        "datasource": {
-          "type": "prometheus",
-          "uid": "PBFA97CFB590B2093"
-        },
-        "targets": [
-          {
-            "expr": "histogram_quantile(0.5, sum(rate(time_to_click_seconds_bucket[1m])) by (le, version))",
-            "refId": "C",
-            "legendFormat": "P50 - {{version}}"
-          },
-          {
-            "expr": "histogram_quantile(0.9, sum(rate(time_to_click_seconds_bucket[1m])) by (le, version))",
-            "refId": "D",
-            "legendFormat": "P90 - {{version}}"
-          },
-          {
-            "expr": "histogram_quantile(0.99, sum(rate(time_to_click_seconds_bucket[1m])) by (le, version))",
-            "refId": "E",
-            "legendFormat": "P99 - {{version}}"
-          }
-        ],
-        "options": {
-          "orientation": "horizontal",
-          "showLegend": true
-        }
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
       }
     ]
-  }
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 2,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "expr": "rate(time_to_click_seconds_sum{version=\"main\"}[1m]) / rate(time_to_click_seconds_count{version=\"main\"}[1m])",
+          "refId": "A"
+        }
+      ],
+      "title": "Average Time to Click – Main",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "expr": "rate(time_to_click_seconds_sum{version=\"canary\"}[1m]) / rate(time_to_click_seconds_count{version=\"canary\"}[1m])",
+          "refId": "B"
+        }
+      ],
+      "title": "Average Time to Click – Canary",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 6
+      },
+      "id": 3,
+      "options": {
+        "displayMode": "gradient",
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "maxVizHeight": 300,
+        "minVizHeight": 16,
+        "minVizWidth": 8,
+        "namePlacement": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showLegend": true,
+        "showUnfilled": true,
+        "sizing": "auto",
+        "valueMode": "color"
+      },
+      "pluginVersion": "12.0.2",
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.5, sum(rate(time_to_click_seconds_bucket[1m])) by (le, version))",
+          "legendFormat": "P50 – {{version}}",
+          "refId": "C"
+        },
+        {
+          "expr": "histogram_quantile(0.9, sum(rate(time_to_click_seconds_bucket[1m])) by (le, version))",
+          "legendFormat": "P90 – {{version}}",
+          "refId": "D"
+        },
+        {
+          "expr": "histogram_quantile(0.99, sum(rate(time_to_click_seconds_bucket[1m])) by (le, version))",
+          "legendFormat": "P99 – {{version}}",
+          "refId": "E"
+        }
+      ],
+      "title": "Time-to-Click Distribution",
+      "type": "barchart"
+    }
+  ],
+  "preload": false,
+  "refresh": "10s",
+  "schemaVersion": 41,
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-30m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Time-to-Click Comparison",
+  "uid": "time_to_click",
+  "version": 1
 }
