@@ -43,7 +43,7 @@ Vagrant.configure("2") do |config|
 
   # Open the general setup playbook.
   config.vm.provision :ansible do |a|
-    a.playbook = "general.yaml"
+    a.playbook = "playbooks/general.yaml"
     a.extra_vars = {
         num_workers: num_workers
       }
@@ -54,7 +54,7 @@ Vagrant.configure("2") do |config|
     ctrl_node.vm.hostname = "ctrl"
     ctrl_node.vm.network "private_network", ip: "#{network_base}100"
 
-    # Set memory to 4GB and CPU to 1
+    # Set memory to 4GB and CPU to 2
     ctrl_node.vm.provider "virtualbox" do |v|
       v.memory = ctrl_memory
       v.cpus = ctrl_cpus
@@ -62,7 +62,7 @@ Vagrant.configure("2") do |config|
 
     # Open the control playbook.
     ctrl_node.vm.provision :ansible do |a|
-      a.playbook = "ctrl.yaml"
+      a.playbook = "playbooks/ctrl.yaml"
     end
   end
 
@@ -81,7 +81,7 @@ Vagrant.configure("2") do |config|
 
       # Open the node playbook.
       node.vm.provision :ansible do |a|
-        a.playbook = "node.yaml"
+        a.playbook = "playbooks/node.yaml"
       end
 
     end

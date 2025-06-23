@@ -13,6 +13,8 @@
         --node-name=ctrl
         --pod-network-cidr=10.244.0.0/16
       when: not kubeconfig_file.stat.exists
+      args:
+        creates: /etc/kubernetes/admin.conf  
 
     - name: Create .kube directory for vagrant user
       ansible.builtin.file:
@@ -21,7 +23,6 @@
         owner: vagrant
         group: vagrant
         mode: '0755'
-      when: not kubeconfig_file.stat.exists
 
     - name: Copy admin.conf for vagrant user
       ansible.builtin.copy:
@@ -31,32 +32,49 @@
         group: vagrant
         mode: '0644'
         remote_src: yes
-      when: not kubeconfig_file.stat.exists
+      when: not kubeconfig_file.stat.exists 
 
     - name: Copy kubeconfig to host machine
       ansible.builtin.fetch:
         src: /etc/kubernetes/admin.conf
-        dest: ./kubeconfig
+        dest: "{{ playbook_dir }}/../kubeconfig"
         flat: yes
       when: not kubeconfig_file.stat.exists
 
-    - name: Download kube-flannel.yml
-      ansible.builtin.get_url:
-        url: https://github.com/flannel-io/flannel/releases/download/v0.26.7/kube-flannel.yml
-        dest: /tmp/kube-flannel.yml
-      when: not kubeconfig_file.stat.exists
-
-    - name: Add iface argument to kube-flannel.yml DaemonSet
-      ansible.builtin.replace:
-        path: /tmp/kube-flannel.yml
-        regexp: '      - args:\n        - --ip-masq\n        - --kube-subnet-mgr'
-        replace: '      - args:\n        - --ip-masq\n        - --kube-subnet-mgr\n        - --iface=eth1'
-      when: not kubeconfig_file.stat.exists
-
-    - name: Apply modified kube-flannel.yml
-      ansible.builtin.command: kubectl apply -f /tmp/kube-flannel.yml
+    - name: Check if flannel is already applied
       become_user: vagrant
-      when: not kubeconfig_file.stat.exists
+      ansible.builtin.command: kubectl get daemonset kube-flannel -n kube-flannel --ignore-not-found
+      register: flannel_installed
+      failed_when: false
+      changed_when: false
+      environment:
+        KUBECONFIG: /home/vagrant/.kube/config
+
+    - name: Install Flannel because it was not found
+      block:
+        - name: Download kube-flannel.yml
+          ansible.builtin.get_url:
+            url: https://github.com/flannel-io/flannel/releases/download/v0.26.7/kube-flannel.yml
+            dest: /tmp/kube-flannel.yml
+            mode: '0644'
+
+        - name: Add iface argument to kube-flannel.yml DaemonSet
+          ansible.builtin.lineinfile:
+            path: /tmp/kube-flannel.yml
+            insertafter: '^\s*- --kube-subnet-mgr'
+            line: '        - --iface=eth1'
+
+        - name: Apply kube-flannel manifest
+          become_user: vagrant
+          ansible.builtin.command: kubectl apply -f /tmp/kube-flannel.yml
+          register: flannel_apply
+          changed_when: >
+            flannel_apply.stdout is search("created") or
+            flannel_apply.stdout is search("configured")
+          environment:
+            KUBECONFIG: /home/vagrant/.kube/config
+
+      when: flannel_installed.stdout == ""
 
     - name: Get system architecture (dpkg)
       ansible.builtin.command: dpkg --print-architecture
@@ -72,40 +90,34 @@
     - name: Add the community Helm apt repository
       ansible.builtin.apt_repository:
         repo: >-
-          deb [arch={{ dpkg_arch.stdout }} signed-by=/usr/share/keyrings/helm.gpg] 
+          deb [arch={{ dpkg_arch.stdout }} signed-by=/usr/share/keyrings/helm.gpg]
           https://baltocdn.com/helm/stable/debian/ all main
         filename: helm-stable-debian
-        state: present   
+        state: present
 
     - name: Update apt cache
       ansible.builtin.apt:
-        update_cache: yes 
+        update_cache: yes
 
     - name: Install helm
       ansible.builtin.apt:
-        name:
-          - helm
+        name: helm
         state: present
-        update_cache: no
 
     - name: Install helm diff for vagrant user
       ansible.builtin.command: helm plugin install https://github.com/databus23/helm-diff
       become_user: vagrant
       environment:
-        HOME: /home/vagrant # Ensures helm installs plugins in vagrant's home
+        HOME: /home/vagrant
       args:
         creates: /home/vagrant/.local/share/helm/plugins/helm-diff
-
+        
     - name: Ensure python3-pip is installed
-      become: true
       ansible.builtin.apt:
         name: python3-pip
         state: present
-        update_cache: yes
 
     - name: Ensure Kubernetes Python client library is installed via apt
-      become: true
       ansible.builtin.apt:
         name: python3-kubernetes
         state: present
-        update_cache: yes

@@ -62,7 +62,7 @@
     - Approved PR: [Enhance app](https://github.com/remla25-team4/app/pull/4)
 - Maria Clara Espírito Santo
     - Created PR: [Setup Helm chart for 1.1](https://github.com/remla25-team4/operation/pull/9) (related to A3)
-    - Approved PR: [Fix-istio-installation](https://github.com/remla25-team4/operation/pull/16)
+    - Approved PR: [Fix-istio-installation](https://github.com/remla25-team4/operation/pull/16) (related to A3)
     - Approved PR: [Complete migration from docker compose to kubernetes](https://github.com/remla25-team4/operation/pull/11) (Related to A3)
 - Alexandru Gliga:
     - Created PR: [Switched to from fastapi to flask](https://github.com/remla25-team4/model-service/pull/6) (Related to A2)
@@ -136,6 +136,15 @@
   - Approved PR:[ Recorded elapsed time since refresh for the experiment part of A5](https://github.com/remla25-team4/app/pull/15) (related to A5)
 
 # Week 8
+- Ahmed Driouech:
+  - Created PR: [fix grafana + backend server](https://github.com/remla25-team4/app/pull/17) (related to A3)
+  - Approved PR: [seperate sticky sessions from weighted routing](https://github.com/remla25-team4/operation/pull/33)  
 - Alexandru Gliga:
   - Created PR:: [Model and BOW versioning](https://github.com/remla25-team4/model-training/pull/23) (related to A1)
   - Created PR:: [Updated model-service to use new artifacts](https://github.com/remla25-team4/model-service/pull/10) (related to A1)
+- Yulin Chen:
+  - Created PR: [Seperate sticky routing from weighted routing](https://github.com/remla25-team4/operation/pull/33) (related to A5)
+  - Approved PR: [Added rate-limiting](https://github.com/remla25-team4/operation/pull/29) (related to A5)
+- Alexandru Postu:
+  - Created PR: [Added grafana dashboard that should compare metrics across app versions](https://github.com/remla25-team4/operation/pull/31) (related to A5)
+  - Approved PR: [Continuous-experimentation A5 new app button](https://github.com/remla25-team4/app/pull/16) (related to A5)

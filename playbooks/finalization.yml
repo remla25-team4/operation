@@ -23,7 +23,7 @@
 
     - name: Copy local MetalLB manifest to controller node
       ansible.builtin.copy:
-        src: "files/metallb-native-v0.14.9.yaml"
+        src: "{{ playbook_dir }}/../files/metallb-native-v0.14.9.yaml"
         dest: "/tmp/metallb-native-v0.14.9.yaml"
         mode: '0644'
 
@@ -183,7 +183,6 @@
         owner: vagrant
         group: vagrant
         remote_src: yes
-        # Idempotency: check if the istioctl binary already exists
         creates: "/home/vagrant/istio-{{ istio_version }}/bin/istioctl"
 
     - name: "Add Istio {{ istio_version }} istioctl to vagrant user's PATH in .profile"
@@ -205,4 +204,65 @@
         KUBECONFIG: "/home/vagrant/.kube/config"
       args:
         chdir: "/home/vagrant/istio-{{ istio_version }}/"
+
+    - name: Patch Istio ingress gateway with fixed IP
+      kubernetes.core.k8s:
+        state: present
+        definition:
+          apiVersion: v1
+          kind: Service
+          metadata:
+            name: istio-ingressgateway
+            namespace: istio-system
+          spec:
+            type: LoadBalancer
+            loadBalancerIP: 192.168.56.91
+            ports:
+              - port: 80
+                targetPort: 8080
+                name: http
+              - port: 443
+                targetPort: 8443
+                name: https
+
+    # Part from here below is used for the self-signed TLS certifcate.
+
+    #This is where we generate the certificate itself.
+    - name: Generate self-signed TLS certificate for dashboard.local
+      ansible.builtin.command: >
+        openssl req -x509 -nodes -days 365 -newkey rsa:2048
+        -subj "/CN=dashboard.local"
+        -keyout /tmp/dashboard.key
+        -out /tmp/dashboard.crt
+      args:
+        creates: /tmp/dashboard.crt
+
+    - name: Fetch the TLS certificate from the remote node
+      ansible.builtin.fetch:
+        src: /tmp/dashboard.crt
+        dest: /tmp/dashboard.crt
+        flat: yes
+
+    - name: Fetch the TLS key from the remote node
+      ansible.builtin.fetch:
+        src: /tmp/dashboard.key
+        dest: /tmp/dashboard.key
+        flat: yes
+
+    # We then create the TLS secret
+    - name: Create TLS secret 
+      kubernetes.core.k8s:
+        state: present
+        definition:
+          apiVersion: v1
+          kind: Secret
+          metadata:
+            name: dashboard-tls
+            namespace: kubernetes-dashboard
+          type: kubernetes.io/tls
+          data:
+            tls.crt: "{{ lookup('file', '/tmp/dashboard.crt') | b64encode }}"
+            tls.key: "{{ lookup('file', '/tmp/dashboard.key') | b64encode }}"
+
+
 
