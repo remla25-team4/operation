@@ -154,3 +154,12 @@
 # Week 9
 - Maria Clara Espírito Santo
   - Created PR: [Ml4 updates](https://github.com/remla25-team4/model-training/pull/24) (related to A4)
+- Yulin Chen
+  - Created PR: [Seperate sticky routing from weighted routing](https://github.com/remla25-team4/operation/pull/33) (related to A5)
+  - Created PR: [Fix model url helm](https://github.com/remla25-team4/operation/pull/35) (related to A3)
+  - Created PR: [create subdirectory for playbooks](https://github.com/remla25-team4/operation/pull/37) (related to A2)
+  - Approved PR: [Improve assignment 2 to excellent](https://github.com/remla25-team4/operation/pull/34) (related to A2)
+ 
+# Week 10
+- Yulin Chen:
+  - Approved PR: [Ml4_updates](https://github.com/remla25-team4/model-training/pull/24) (related to A4)
