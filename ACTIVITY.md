@@ -148,3 +148,9 @@
 - Alexandru Postu:
   - Created PR: [Added grafana dashboard that should compare metrics across app versions](https://github.com/remla25-team4/operation/pull/31) (related to A5)
   - Approved PR: [Continuous-experimentation A5 new app button](https://github.com/remla25-team4/app/pull/16) (related to A5)
+
+
+
+# Week 9
+- Maria Clara Espírito Santo
+  - Created PR: [Ml4 updates](https://github.com/remla25-team4/model-training/pull/24) (related to A4)
