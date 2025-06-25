@@ -246,14 +246,14 @@
       "pluginVersion": "12.0.1+security-01",
       "targets": [
         {
-          "expr": "active_prediction_requests",
+          "expr": "sum(active_prediction_requests)",
           "format": "time_series",
           "range": false,
           "refId": "A"
         }
       ],
       "title": "Active Prediction Requests",
-      "type": "gauge"
+      "type": "stat"
     },
     {
       "datasource": {
