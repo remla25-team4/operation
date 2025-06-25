@@ -24,3 +24,4 @@ data:
         metrics_path: '/metrics'
         static_configs:
           - targets: ['restaurant-sentiment-model-svc:8080'] 
+

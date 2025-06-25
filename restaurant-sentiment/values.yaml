@@ -48,3 +48,15 @@ appSecrets:
   enabled: true
   secretName: "app-secrets"
   dummyApiKeyName: "DUMMY_API_KEY"
+
+monitoring:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    additionalLabels:
+      prometheus: prometheus
+
+grafana:
+  dashboardsConfigMaps:
+    restaurant-sentiment-dashboard: "restaurant-sentiment-dashboard"
+  additionalDataSources: []

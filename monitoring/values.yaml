@@ -141,6 +141,7 @@ prometheus:
         static_configs:
           - targets: ['restaurant-sentiment-model-svc:8080']
 
+
 serviceMonitor:
   enabled: true
   interval: 15s

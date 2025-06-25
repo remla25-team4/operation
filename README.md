@@ -200,16 +200,18 @@ Key values you might want to customize:
 ### Prometheus Monitoring
 1. **Navigate to the Helm chart directory (optional, can also install from root):**
     ```bash
-    cd monitoring
+    cd prometheus
     ```
 2. **Install the Helm chart:**
-    Choose a release name (e.g., `monitoring`) and a namespace (e.g., `default`).
+    Choose a release name (e.g., `prometheus`) and a namespace (e.g., `monitoring`).
     If you are inside the `operations/monitoring` directory:
     ```bash
-    helm install monitoring . --namespace default -f values.yaml --replace # you might have to try twice
+     helm upgrade --install prometheus prometheus-community/kube-prometheus-stack \
+  -n monitoring \
+  -f values.yml
     ```
     Wait for a minute or two for the containers to fully deploy within the cluster to proceed with accessing the application.
-    You can also run `kubectl get pods -n default -l app.kubernetes.io/instance=monitoring -w` to see the deployment status
+    You can also run `kubectl get pods -n monitoring -l app.kubernetes.io/instance=monitoring -w` to see the deployment status
 
 ### Accessing the prometheus and grafana dashboards
 1. **Update Your Local `/etc/hosts` File:**
@@ -224,7 +226,9 @@ Key values you might want to customize:
 3. **Logging into Grafana:**
     To log into Grafana, use `admin` for the username and `admin` for the password.
 
-4. **Import Grafana dashboard:** You may import our Grafana dashboard. To do so, import the `Restaurant sentiment dashboard.json` that may be found under the `monitoring/dashboards/`.
+4. **Restaurant-sentiment-dashboard**: Our dashboard from dashboards/restaurant-sentiment-dashboard.json is automatically loaded through a config file.
+
+5. **Import Grafana dashboard:** You may import a Grafana dashboard. To do so, go to Dashboards -> New -> Import and paste in a json format dashboard.
 
     Open your web browser and navigate to the configured host (e.g., `http://prometheus.local`).
 

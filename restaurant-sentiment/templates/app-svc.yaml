@@ -5,6 +5,7 @@ metadata:
   name: {{ include "restaurant-sentiment.app.fullname" . }}
   labels:
     {{- include "restaurant-sentiment.labels" . | nindent 4 }}
+    {{- include "restaurant-sentiment.selectorLabels" (dict "root" . "component" "app") | nindent 4 }}
     app.kubernetes.io/component: app
 spec:
   type: {{ .Values.app.service.type }}
