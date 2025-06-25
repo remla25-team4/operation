@@ -10,7 +10,7 @@ metadata:
 spec:
   containers:
   - name: app
-    image: ghcr.io/remla25-team4/app:2.0.8
+    image: ghcr.io/remla25-team4/app:2.1.4
     imagePullPolicy: Always
     ports:
     - containerPort: 3001
