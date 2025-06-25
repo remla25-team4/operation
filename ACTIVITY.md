@@ -138,6 +138,7 @@
 # Week 8
 - Ahmed Driouech:
   - Created PR: [fix grafana + backend server](https://github.com/remla25-team4/app/pull/17) (related to A3)
+  - Created PR: [initialize wrong_prediction_counter](https://github.com/remla25-team4/app/pull/18)(related to A3) 
   - Approved PR: [seperate sticky sessions from weighted routing](https://github.com/remla25-team4/operation/pull/33)  
 - Alexandru Gliga:
   - Created PR:: [Model and BOW versioning](https://github.com/remla25-team4/model-training/pull/23) (related to A1)
@@ -152,6 +153,9 @@
 
 
 # Week 9
+- Ahmed Driouech:
+  - Created PR: [add avg metric grafana](https://github.com/remla25-team4/app/pull/19)(related to A3) 
+  - Created PR: [FIX total_prediction_requests bug](https://github.com/remla25-team4/app/pull/20)(related to A3) 
 - Maria Clara Espírito Santo
   - Created PR: [Ml4 updates](https://github.com/remla25-team4/model-training/pull/24) (related to A4)
 - Yulin Chen
@@ -161,5 +165,12 @@
   - Approved PR: [Improve assignment 2 to excellent](https://github.com/remla25-team4/operation/pull/34) (related to A2)
  
 # Week 10
+- Ahmed Driouech:
+  - Created PR: [Fix elapsedtime experiment](https://github.com/remla25-team4/app/pull/21)(related to A5) 
+  - Created PR: [added time measuring to canary frontend + changed metric accoringly](https://github.com/remla25-team4/app/pull/22)(related to A5) 
+  - Created PR: [canary release](https://github.com/remla25-team4/app/pull/23)(related to A5) 
+  - Created PR: [main release](https://github.com/remla25-team4/app/pull/24)(related to A5) 
+  - Created PR: [Changed the way we implement prometheus](https://github.com/remla25-team4/operation/pull/38)(related to A3)
+  - Approved PR: [Added grafana dashboard that should compare metrics across app versions](https://github.com/remla25-team4/operation/pull/31) (related to A5)
 - Yulin Chen:
   - Approved PR: [Ml4_updates](https://github.com/remla25-team4/model-training/pull/24) (related to A4)
