@@ -60,10 +60,13 @@ The app will start two services:
 Variables defined in the `.env` file:
 
 ```env
-MODEL_URL="https://github.com/remla25-team4/model-training/raw/main/models/naive_bayes.joblib"
-MODEL_SERVICE_URL=http://localhost:8080
+APP_IMAGE=ghcr.io/remla25-team4/app:latest
+MODEL_IMAGE=ghcr.io/remla25-team4/model-service:latest
+MODEL_SERVICE_PORT=8080
+MODEL_URL="https://github.com/remla25-team4/model-training/releases/download/v2.0.1/naive_bayes.joblib"
 ```
-
+* `APP_IMAGE` is the image of our latest app version
+* `MODEL_IMAGE` is the image of our latest service version
 * `MODEL_URL` points to the trained model file
 * `MODEL_SERVICE_URL` tells the app where to find the model API
 
