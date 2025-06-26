@@ -1,4 +1,3 @@
-![image](https://github.com/user-attachments/assets/1dc046f3-6849-4cc4-bac0-ac2a996fb150)![image](https://github.com/user-attachments/assets/1dc046f3-6849-4cc4-bac0-ac2a996fb150)# Week 2
 - Ahmed Driouech:
   - Created PR: [App PR](https://github.com/remla25-team4/app/pull/1) (related to A1)
   - Approved PR: [Operation PR](https://github.com/remla25-team4/operation/pull/1) (related to A1)
