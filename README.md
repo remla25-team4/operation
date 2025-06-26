@@ -342,7 +342,7 @@ for i in {1..501}; do echo "Sending request #$i"; curl -H "userid: 1" -w "%{http
 If you have not sent any requests before executing this, the response for request #1001 should be empty, as the rate limiting rule kicks in.
 
 ### Example output
-
+```bash
 Sending request #499
 {
   "appVersion": "2.1.5",
@@ -359,7 +359,7 @@ Sending request #500
 200
 Sending request #501
 429
-
+```
 
 
 ## Related Repositories 
