@@ -88,9 +88,9 @@ git clone https://github.com/remla25-team4/operation.git
 cd operation
 ```
 
-2. Start the virtual machines with Vagrant and complete the setup
+2. Create fresh new VMs and initiate the setup procedure
 ```bash
-vagrant up --provision ; ansible-playbook -u vagrant -i 192.168.56.100, playbooks/finalization.yml
+vagrant destroy -f ; vagrant up --provision ; ansible-playbook -u vagrant -i 192.168.56.100, playbooks/finalization.yml
 ```
 
 3. Add hostname to enable access in the browser
@@ -166,7 +166,32 @@ Key values you might want to customize:
 * **`app.secretData`** Data to populate the `app` services's secrets.
 * **`modelService.containerPort` / `modelService.env.PORT`**: Port the model service listens on (default: `8080`).
 
-### Installation Steps
+### Prometheus Monitoring
+1. **Navigate to the Helm chart directory (optional, can also install from root):**
+    ```bash
+    cd prometheus
+    ```
+2. **Add prometheus-community Helm chart:**
+    If you are inside the `operations/monitoring` directory:
+    ```bash
+    helm repo add prometheus-community https:/prometheus-community.github.io/helm-charts
+
+    helm repo update
+
+    kubectl create namespace monitoring
+    ```
+
+3. **Install Prometheus:**
+    Choose a release name (e.g., `prometheus`) and a namespace (e.g., `monitoring`).
+    ```bash
+     helm upgrade --install prometheus prometheus-community/kube-prometheus-stack \
+    -n monitoring \
+    -f values.yml
+    ```
+    Wait for a minute or two for the containers to fully deploy within the cluster to proceed with accessing the application.
+    You can also run `kubectl get pods -n monitoring -w` to see the deployment status
+
+### App Installation Steps
 
 1.  **Navigate to the Helm chart directory (optional, can also install from root):**
     ```bash
@@ -181,6 +206,7 @@ Key values you might want to customize:
     ```
     Wait for a minute or two for the containers to fully deploy within the cluster to proceed with accessing the application.
     You can also run `kubectl get pods -n default -l app.kubernetes.io/instance=restaurant-sentiment -w` to see the deployment status
+
 
 ### Accessing the Application
 
@@ -200,19 +226,6 @@ Key values you might want to customize:
 3.  **Open in Browser:**
     Open your web browser and navigate to the configured host (e.g., `http://restaurant.local`).
 
-### Prometheus Monitoring
-1. **Navigate to the Helm chart directory (optional, can also install from root):**
-    ```bash
-    cd monitoring
-    ```
-2. **Install the Helm chart:**
-    Choose a release name (e.g., `monitoring`) and a namespace (e.g., `default`).
-    If you are inside the `operations/monitoring` directory:
-    ```bash
-    helm install monitoring . --namespace default -f values.yaml --replace # you might have to try twice
-    ```
-    Wait for a minute or two for the containers to fully deploy within the cluster to proceed with accessing the application.
-    You can also run `kubectl get pods -n default -l app.kubernetes.io/instance=monitoring -w` to see the deployment status
 
 ### Accessing the prometheus and grafana dashboards
 1. **Update Your Local `/etc/hosts` File:**
@@ -224,10 +237,13 @@ Key values you might want to customize:
 2.  **Open in Browser:**
 
     Open your web browser and navigate to the configured host (e.g., `http://prometheus.local` or `http://grafana.local`).
+
 3. **Logging into Grafana:**
     To log into Grafana, use `admin` for the username and `admin` for the password.
 
-4. **Import Grafana dashboard:** You may import our Grafana dashboard. To do so, import the `Restaurant sentiment dashboard.json` that may be found under the `monitoring/dashboards/`.
+4. **Restaurant-sentiment-dashboard**: Our dashboard from dashboards/restaurant-sentiment-dashboard.json is automatically loaded through a config file.
+
+5. **Import Grafana dashboard:** You may import a Grafana dashboard. To do so, go to Dashboards -> New -> Import and paste in a json format dashboard.
 
     Open your web browser and navigate to the configured host (e.g., `http://prometheus.local`).
 
@@ -309,7 +325,7 @@ curl -H "userid: 1" 192.168.56.91/api/versions
 For weighted routing, you should see that an older version of app is displayed most of the time.
 
 For sticky routing, if the userid value is odd, the app version will always be the older one (v1) and will not change if userid stays the same
-If the userid is changed to an even numberm the app version should now be the newer one (v2).
+If the userid is changed to an even number the app version should now be the newer one (v2).
 
 
 ### step 4: Rate-limiting
@@ -318,6 +334,39 @@ To enable rate-limiting run:
 ```bash
 kubectl apply -f rate-limit.yml
 ```
+Each user is allowed up to 1000 API requests per day.
+To test this behaviour, you can run the following:
+```bash
+for i in {1..1001}; do echo "Sending request #$i"; curl -H "userid: 1" 192.168.56.91/api/versions; done
+```
+If you have not sent any requests before executing this, the response for request #1001 should be empty, as the rate limiting rule kicks in.
+
+### Example output
+
+Sending request #998
+{
+  "appVersion": "3.0.2-canary",
+  "libVersion": "0.1.1",
+  "modelVersion": "2.0.1"
+}
+
+Sending request #999
+{
+  "appVersion": "2.1.5",
+  "libVersion": "0.1.1",
+  "modelVersion": "2.0.1"
+}
+
+Sending request #1000
+{
+  "appVersion": "2.1.5",
+  "libVersion": "0.1.1",
+  "modelVersion": "2.0.1"
+}
+
+Sending request #1001
+
+
 
 ## Related Repositories 
 

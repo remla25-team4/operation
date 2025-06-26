@@ -27,6 +27,8 @@ spec:
           env:
             - name: MODEL_URL
               value: {{ .Values.modelService.env.MODEL_URL | quote }}
+            - name: CV_URL
+              value: {{ .Values.modelService.env.CV_URL | quote }}
             # Model service listening port configurable via ENV
             - name: PORT
               value: {{ .Values.modelService.env.PORT | quote }}

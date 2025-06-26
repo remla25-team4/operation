@@ -1,0 +1,16 @@
+{{- if and .Values.monitoring.enabled .Values.monitoring.serviceMonitor.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "restaurant-sentiment.app.fullname" . }}-sm
+  labels:
+    release: prometheus              
+spec:
+  selector:
+    matchLabels:
+      {{- include "restaurant-sentiment.selectorLabels" (dict "root" . "component" "app") | nindent 6 }}
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 15s
+{{- end }}

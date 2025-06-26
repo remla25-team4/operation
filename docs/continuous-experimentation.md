@@ -1,11 +1,11 @@
 # Experiment
 
-The aim of our experiment is to improve the user experience by bringing a more intuitive look to the user interface (UI). To do so, we:
-- Switch the button colour to yellow
-- Make the button smaller
-- Place it on the right hand side of the text box
+The aim of our experiment is to improve the user experience by bringing a dark look to the user interface (UI). To do so, we:
+- Switch to a darker theme to highlight the button
+- Add a button animation on hover
+- Spread out version information
 
-To test if our implementation is more intuitive, we measure if users click the new button interface more quickly than previously.
+To test if our modifications are more effective, we measure if users click the new button interface more quickly than previously.
 
 ## Implementated aspects:
 - Changed the UI, as described above.

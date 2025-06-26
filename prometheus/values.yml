@@ -1,0 +1,18 @@
+prometheus:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - prometheus.local
+  prometheusSpec:
+    maximumStartupDurationSeconds: 60
+
+grafana:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - grafana.local
+      
+  adminUser: admin
+  adminPassword: admin

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: restaurant-sentiment-dashboard
+  labels:
+    grafana_dashboard: "1"  
+    app.kubernetes.io/name: grafana
+data:
+  restaurant-sentiment-dashboard.json: | 
+  {{- (.Files.Get "dashboards/restaurant-sentiment-dashboard.json") | nindent 4 }}

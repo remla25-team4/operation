@@ -71,7 +71,7 @@
       "pluginVersion": "12.0.2",
       "targets": [
         {
-          "expr": "rate(time_to_click_seconds_sum{version=\"main\"}[1m]) / rate(time_to_click_seconds_count{version=\"main\"}[1m])",
+          "expr": "rate(time_to_click_seconds_sum{destination_app=\"app\"}[1m]) / rate(time_to_click_seconds_count{destination_app=\"app\"}[1m])",
           "refId": "A"
         }
       ],
@@ -128,7 +128,7 @@
       "pluginVersion": "12.0.2",
       "targets": [
         {
-          "expr": "rate(time_to_click_seconds_sum{version=\"canary\"}[1m]) / rate(time_to_click_seconds_count{version=\"canary\"}[1m])",
+          "expr": "rate(time_to_click_seconds_sum{destination_app=\"app-v1\"}[1m]) / rate(time_to_click_seconds_count{destination_app=\"app-v2\"}[1m])",
           "refId": "B"
         }
       ],
@@ -193,18 +193,18 @@
       "pluginVersion": "12.0.2",
       "targets": [
         {
-          "expr": "histogram_quantile(0.5, sum(rate(time_to_click_seconds_bucket[1m])) by (le, version))",
-          "legendFormat": "P50 – {{version}}",
+          "expr": "histogram_quantile(0.5, sum(rate(time_to_click_seconds_bucket{destination_app=~\"app|app-canary\"}[1m])) by (le, destination_app))",
+          "legendFormat": "P50 – {{destination_app}}",
           "refId": "C"
         },
         {
-          "expr": "histogram_quantile(0.9, sum(rate(time_to_click_seconds_bucket[1m])) by (le, version))",
-          "legendFormat": "P90 – {{version}}",
+          "expr": "histogram_quantile(0.9, sum(rate(time_to_click_seconds_bucket{destination_app=~\"app|app-canary\"}[1m])) by (le, destination_app))",
+          "legendFormat": "P90 – {{destination_app}}",
           "refId": "D"
         },
         {
-          "expr": "histogram_quantile(0.99, sum(rate(time_to_click_seconds_bucket[1m])) by (le, version))",
-          "legendFormat": "P99 – {{version}}",
+          "expr": "histogram_quantile(0.99, sum(rate(time_to_click_seconds_bucket{destination_app=~\"app|app-canary\"}[1m])) by (le, destination_app))",
+          "legendFormat": "P99 – {{destination_app}}",
           "refId": "E"
         }
       ],
@@ -227,5 +227,5 @@
   "timezone": "browser",
   "title": "Time-to-Click Comparison",
   "uid": "time_to_click",
-  "version": 1
+  "version": 2
 }

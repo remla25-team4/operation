@@ -29,6 +29,7 @@ modelService:
     repository: ghcr.io/remla25-team4/model-service
     tag: "latest"
     MODEL_URL: "https://github.com/remla25-team4/model-training/releases/latest/download/naive_bayes.joblib"
+    CV_URL: "https://github.com/remla25-team4/model-training/releases/download/v1.0.5/count_vectorizer.joblib"
     PORT: "8080" # configurable model service port
   livenessProbe:
     path: /healthz
@@ -48,3 +49,15 @@ appSecrets:
   enabled: true
   secretName: "app-secrets"
   dummyApiKeyName: "DUMMY_API_KEY"
+
+monitoring:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    additionalLabels:
+      prometheus: prometheus
+
+grafana:
+  dashboardsConfigMaps:
+    restaurant-sentiment-dashboard: "restaurant-sentiment-dashboard"
+  additionalDataSources: []
