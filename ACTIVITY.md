@@ -174,6 +174,7 @@
   - Created PR: [canary release](https://github.com/remla25-team4/app/pull/23)(related to A5) 
   - Created PR: [main release](https://github.com/remla25-team4/app/pull/24)(related to A5) 
   - Created PR: [Changed the way we implement prometheus](https://github.com/remla25-team4/operation/pull/38)(related to A3)
+  - Created PR: [add app specific histogram ](https://github.com/remla25-team4/app/pull/31)(related to A3)
   - Approved PR: [Added grafana dashboard that should compare metrics across app versions](https://github.com/remla25-team4/operation/pull/31) (related to A5)
 - Yulin Chen:
   - Approved PR: [Ml4_updates](https://github.com/remla25-team4/model-training/pull/24) (related to A4)
