@@ -50,7 +50,7 @@ data:
       - key: remote_address
         rate_limit: 
           unit: day
-          requests_per_unit: 1000
+          requests_per_unit: 500
 ---
 # setup envoy ratelimit service + deployment to check incoming requests
 apiVersion: v1

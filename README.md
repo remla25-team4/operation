@@ -334,37 +334,31 @@ To enable rate-limiting run:
 ```bash
 kubectl apply -f rate-limit.yml
 ```
-Each user is allowed up to 1000 API requests per day.
+Each user is allowed up to 500 API requests per day.
 To test this behaviour, you can run the following:
 ```bash
-for i in {1..1001}; do echo "Sending request #$i"; curl -H "userid: 1" 192.168.56.91/api/versions; done
+for i in {1..501}; do echo "Sending request #$i"; curl -H "userid: 1" -w "%{http_code}\n" 192.168.56.91/api/versions; done
 ```
 If you have not sent any requests before executing this, the response for request #1001 should be empty, as the rate limiting rule kicks in.
 
 ### Example output
 
-Sending request #998
-{
-  "appVersion": "3.0.2-canary",
-  "libVersion": "0.1.1",
-  "modelVersion": "2.0.1"
-}
-
-Sending request #999
+Sending request #499
 {
   "appVersion": "2.1.5",
   "libVersion": "0.1.1",
   "modelVersion": "2.0.1"
 }
-
-Sending request #1000
+200
+Sending request #500
 {
   "appVersion": "2.1.5",
   "libVersion": "0.1.1",
   "modelVersion": "2.0.1"
 }
-
-Sending request #1001
+200
+Sending request #501
+429
 
 
 
