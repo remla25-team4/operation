@@ -4,6 +4,8 @@ prometheus:
     ingressClassName: nginx
     hosts:
       - prometheus.local
+  prometheusSpec:
+    maximumStartupDurationSeconds: 60
 
 grafana:
   ingress:

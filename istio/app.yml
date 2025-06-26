@@ -31,14 +31,15 @@ metadata:
 spec:
   containers:
   - name: model-service-container
-    image: ghcr.io/remla25-team4/model-service:1.0.1
+    image: ghcr.io/remla25-team4/model-service:2.0.1
     imagePullPolicy: Always
     ports:
     - containerPort: 8080
     env:
     - name: MODEL_URL
       value: "https://github.com/remla25-team4/model-training/releases/latest/download/naive_bayes.joblib"
-
+    - name: CV_URL
+      value: "https://github.com/remla25-team4/model-training/releases/latest/download/count_vectorizer.joblib"
 ---
 apiVersion: v1
 kind: Service
