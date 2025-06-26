@@ -393,24 +393,3 @@ Sending request #1001
 | [`model-training/model_code/create_model.py`](https://github.com/remla25-team4/model-training/blob/main/model_code/create_model.py) | Core model training logic                                         |
 | [`model-training/models/naive_bayes`](https://github.com/remla25-team4/model-training/blob/main/models/naive_bayes)                 | stored trained model used in production                           |
 | [`lib-ml/preprocessing.py`](https://github.com/remla25-team4/lib-ml/blob/main/preprocessing.py)                                     | Text preprocessing logic used during training and inference       |
-
----
-
-
-
-## Progress Log
-
-### Assignment 1 (06/05/2025)
-
-* Created all required repositories in a GitHub organization.
-* Trained and versioned a sentiment model with Niave Bayes for restaurant reviews.
-* Set up reusable libraries (`lib-ml`, `lib-version`).
-* Built and containerized both app and model-service.
-
-
-### Assignment 2 (12/05/2025)
-
-* Provisioned a multi-node Kubernetes cluster using Vagrant and Ansible (1 controller and 2 worker)
-* Installed core elements such as: Flannel, Helm, MetalLB, Ingress Controller 
-* Automated cluster configuration with Ansible playbooks for all nodes
-* Prepared the environment for Kubernetes-based deployment of the sentiment analysis application.~~
