@@ -163,7 +163,32 @@ Key values you might want to customize:
 * **`app.secretData`** Data to populate the `app` services's secrets.
 * **`modelService.containerPort` / `modelService.env.PORT`**: Port the model service listens on (default: `8080`).
 
-### Installation Steps
+### Prometheus Monitoring
+1. **Navigate to the Helm chart directory (optional, can also install from root):**
+    ```bash
+    cd prometheus
+    ```
+2. **Add prometheus-community Helm chart:**
+    If you are inside the `operations/monitoring` directory:
+    ```bash
+    helm repo add prometheus-community https:/prometheus-community.github.io/helm-charts
+
+    helm repo update
+
+    kubectl create namespace monitoring
+    ```
+
+3. **Install Prometheus:**
+    Choose a release name (e.g., `prometheus`) and a namespace (e.g., `monitoring`).
+    ```bash
+     helm upgrade --install prometheus prometheus-community/kube-prometheus-stack \
+    -n monitoring \
+    -f values.yml
+    ```
+    Wait for a minute or two for the containers to fully deploy within the cluster to proceed with accessing the application.
+    You can also run `kubectl get pods -n monitoring -l app.kubernetes.io/instance=monitoring -w` to see the deployment status
+
+### App Installation Steps
 
 1.  **Navigate to the Helm chart directory (optional, can also install from root):**
     ```bash
@@ -178,6 +203,7 @@ Key values you might want to customize:
     ```
     Wait for a minute or two for the containers to fully deploy within the cluster to proceed with accessing the application.
     You can also run `kubectl get pods -n default -l app.kubernetes.io/instance=restaurant-sentiment -w` to see the deployment status
+
 
 ### Accessing the Application
 
@@ -197,33 +223,6 @@ Key values you might want to customize:
 3.  **Open in Browser:**
     Open your web browser and navigate to the configured host (e.g., `http://restaurant.local`).
 
-### Prometheus Monitoring
-1. **Navigate to the Helm chart directory (optional, can also install from root):**
-    ```bash
-    cd prometheus
-    ```
-
-2. **Create a namespace `monitoring`**
-   ```bash
-   kubectl create namespace monitoring
-   ```
-
-
-2. **Run these commands to register the official Prometheus Community chart repository, which is required to install monitoring tools like Prometheus and Grafana.**
-    ```bash
-    helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-    helm repo update
-    ```
-   
-3. **Install the Helm chart:**
-    Choose a release name (e.g., `prometheus`) and install it in our namespace (`monitoring`).
-    ```bash
-    helm upgrade --install prometheus prometheus-community/kube-prometheus-stack \
-    -n monitoring \
-    -f values.yml
-    ```
-    Wait for a minute or two for the containers to fully deploy within the cluster to proceed with accessing the application.
-    You can also run `kubectl get pods -n monitoring -w` to see the deployment status
 
 ### Accessing the prometheus and grafana dashboards
 1. **Update Your Local `/etc/hosts` File:**
