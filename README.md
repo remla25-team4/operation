@@ -189,7 +189,7 @@ Key values you might want to customize:
     -f values.yml
     ```
     Wait for a minute or two for the containers to fully deploy within the cluster to proceed with accessing the application.
-    You can also run `kubectl get pods -n monitoring -l app.kubernetes.io/instance=monitoring -w` to see the deployment status
+    You can also run `kubectl get pods -n monitoring -w` to see the deployment status
 
 ### App Installation Steps
 
