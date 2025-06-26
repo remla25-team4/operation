@@ -23,8 +23,6 @@ We have a `time_to_click_seconds` metric. This measures the time it takes a user
 
 In our grafana dashboard, we average this to obtain an `average_time_to_click_seconds`, so that we can extend this experiment to multiple users.
 
-TODO: put screenshot of grafana dashboard here
-
 ## Acceptance Critera
 We will accept the `Canary version` if and only if it provides an average decrease of 20% to the `average_time_to_click_seconds` metric.
 
