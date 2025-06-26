@@ -163,6 +163,9 @@
   - Created PR: [Fix model url helm](https://github.com/remla25-team4/operation/pull/35) (related to A3)
   - Created PR: [create subdirectory for playbooks](https://github.com/remla25-team4/operation/pull/37) (related to A2)
   - Approved PR: [Improve assignment 2 to excellent](https://github.com/remla25-team4/operation/pull/34) (related to A2)
+- Alex Postu
+  - Created PR: [Improve assignment 2 to excellent](https://github.com/remla25-team4/operation/pull/34) (related to A2)
+  - Approved PR: [Updated the model service to use the new aritfacts](https://github.com/remla25-team4/model-service/pull/10)
  
 # Week 10
 - Ahmed Driouech:
@@ -176,3 +179,6 @@
   - Approved PR: [Ml4_updates](https://github.com/remla25-team4/model-training/pull/24) (related to A4)
   - Approved PR: [ Changed the way we implement prometheus](https://github.com/remla25-team4/operation/pull/38) (related to A3)
   - Created PR: [Cleanup A4](https://github.com/remla25-team4/model-training/pull/29) (related to A4)
+- Alex Postu
+  - Approved PR: [add app specific histogram](https://github.com/remla25-team4/app/pull/31) (related to A3)
+  - Approved PR: [fix elapsedtime experiment](https://github.com/remla25-team4/app/pull/21) (related to A5)
