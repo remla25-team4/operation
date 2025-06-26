@@ -166,6 +166,9 @@
 - Alex Postu
   - Created PR: [Improve assignment 2 to excellent](https://github.com/remla25-team4/operation/pull/34) (related to A2)
   - Approved PR: [Updated the model service to use the new aritfacts](https://github.com/remla25-team4/model-service/pull/10)
+- Alexandru Gliga:
+  - Created PR: [Updated the model service to use the new aritfacts](https://github.com/remla25-team4/model-service/pull/10) (related to A1)
+  - Created PR: [Updated the model training to use the new aritfacts](https://github.com/remla25-team4/model-training/pull/23) (related to A1)
  
 # Week 10
 - Ahmed Driouech:
@@ -183,3 +186,5 @@
 - Alex Postu
   - Approved PR: [add app specific histogram](https://github.com/remla25-team4/app/pull/31) (related to A3)
   - Approved PR: [fix elapsedtime experiment](https://github.com/remla25-team4/app/pull/21) (related to A5)
+- Alexandru Gliga:
+  - Created PR: [Introduced HOST and PORT environment variables](https://github.com/remla25-team4/model-service/pull/11) (related to A1)
